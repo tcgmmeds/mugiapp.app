@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mugi — Your One Piece TCG Companion</title>
+    <meta name="description" content="Track your One Piece TCG collection value, build decks, trade cards, and log tournament results with live market pricing.">
+    <meta name="theme-color" content="#0a0a10">
+    <meta property="og:title" content="Mugi — Your One Piece TCG Companion">
+    <meta property="og:description" content="Track your collection value, build decks, trade cards, and log tournaments — all with live market pricing.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mugiapp.app">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #0a0a10;
+            --bg-card: #13131d;
+            --bg-card-hover: #1a1a28;
+            --purple-400: #c084fc;
+            --purple-500: #a855f7;
+            --purple-600: #9333ea;
+            --purple-900: #3b0764;
+            --green-400: #4ade80;
+            --text-primary: #f0f0f5;
+            --text-secondary: #9898aa;
+            --text-muted: #5a5a6e;
+            --border: #1e1e2e;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'DM Sans', system-ui, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* === NOISE OVERLAY === */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        /* === AMBIENT GLOW === */
+        .glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .glow-orb-1 {
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.15), transparent 70%);
+            top: -200px; left: 50%; transform: translateX(-50%);
+        }
+
+        .glow-orb-2 {
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1), transparent 70%);
+            top: 600px; right: -100px;
+        }
+
+        .glow-orb-3 {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.08), transparent 70%);
+            bottom: 200px; left: -150px;
+        }
+
+        /* === LAYOUT === */
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* === NAV === */
+        nav {
+            padding: 24px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: 0.08em;
+            color: var(--purple-400);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--text-primary); }
+
+        /* === HERO === */
+        .hero {
+            padding: 120px 0 100px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-radius: 100px;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--purple-400);
+            margin-bottom: 32px;
+            animation: fadeUp 0.8s ease both;
+        }
+
+        .hero-badge .dot {
+            width: 6px; height: 6px;
+            background: var(--green-400);
+            border-radius: 50%;
+            animation: pulse 2s ease infinite;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.8rem, 6vw, 4.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 24px;
+            animation: fadeUp 0.8s ease 0.1s both;
+        }
+
+        .hero h1 .accent {
+            background: linear-gradient(135deg, var(--purple-400), var(--purple-600));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-sub {
+            font-size: clamp(1.05rem, 2vw, 1.25rem);
+            color: var(--text-secondary);
+            max-width: 540px;
+            margin: 0 auto 48px;
+            line-height: 1.7;
+            animation: fadeUp 0.8s ease 0.2s both;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 36px;
+            background: var(--purple-600);
+            color: white;
+            border-radius: 14px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            animation: fadeUp 0.8s ease 0.3s both;
+        }
+
+        .hero-cta:hover {
+            background: var(--purple-500);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(168, 85, 247, 0.3);
+        }
+
+        .hero-cta svg { width: 20px; height: 20px; }
+
+        /* === FEATURES === */
+        .features {
+            padding: 80px 0;
+        }
+
+        .features-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--purple-400);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .features-heading {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 700;
+            text-align: center;
+            letter-spacing: -0.02em;
+            margin-bottom: 64px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px 28px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--purple-500), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feature-card:hover {
+            background: var(--bg-card-hover);
+            border-color: rgba(168, 85, 247, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .feature-card:hover::before { opacity: 1; }
+
+        .feature-icon {
+            width: 44px; height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(168, 85, 247, 0.1);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            letter-spacing: -0.01em;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            line-height: 1.6;
+        }
+
+        /* === STATS === */
+        .stats {
+            padding: 60px 0;
+        }
+
+        .stats-row {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Space Mono', monospace;
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 700;
+            color: var(--purple-400);
+            line-height: 1.2;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* === SUPPORT SECTION === */
+        .support {
+            padding: 80px 0;
+        }
+
+        .support-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 60px 48px;
+            text-align: center;
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        .support-card h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .support-card p {
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            line-height: 1.7;
+        }
+
+        .support-email {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-radius: 12px;
+            color: var(--purple-400);
+            text-decoration: none;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        .support-email:hover {
+            background: rgba(168, 85, 247, 0.15);
+            border-color: rgba(168, 85, 247, 0.3);
+        }
+
+        .support-email svg { width: 18px; height: 18px; }
+
+        /* === LEGAL LINKS === */
+        .legal {
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .legal-links {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .legal-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+
+        .legal-links a:hover { color: var(--purple-400); }
+
+        /* === FOOTER === */
+        footer {
+            padding: 40px 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .footer-brand {
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            color: var(--purple-400);
+            letter-spacing: 0.08em;
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+        }
+
+        .footer-copy {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            line-height: 1.8;
+        }
+
+        .footer-disclaimer {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            margin-top: 20px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        /* === ANIMATIONS === */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 640px) {
+            .hero { padding: 80px 0 60px; }
+            .nav-links { gap: 20px; }
+            .stats-row { gap: 40px; }
+            .support-card { padding: 40px 24px; }
+            .features-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient glow orbs -->
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+    <div class="glow-orb glow-orb-3"></div>
+
+    <div class="container">
+
+        <!-- Nav -->
+        <nav>
+            <a href="/" class="logo">MUGI</a>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#support">Support</a></li>
+            </ul>
+        </nav>
+
+        <!-- Hero -->
+        <section class="hero">
+            <div class="hero-badge">
+                <span class="dot"></span>
+                Available on iOS
+            </div>
+            <h1>Your One Piece TCG<br><span class="accent">Companion App</span></h1>
+            <p class="hero-sub">
+                Track your collection value with live market pricing, build decks, 
+                trade cards with friends, and log your tournament results.
+            </p>
+            <a href="https://apps.apple.com/app/mugi" class="hero-cta">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                Download on the App Store
+            </a>
+        </section>
+
+        <!-- Stats -->
+        <section class="stats fade-in">
+            <div class="stats-row">
+                <div class="stat">
+                    <div class="stat-number">4,300+</div>
+                    <div class="stat-label">Cards Tracked</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">118</div>
+                    <div class="stat-label">Complete Sets</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">$239k+</div>
+                    <div class="stat-label">Market Value Tracked</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section class="features" id="features">
+            <div class="features-label">Features</div>
+            <h2 class="features-heading">Everything you need in one app</h2>
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">📊</div>
+                    <h3>Collection Tracker</h3>
+                    <p>Add cards to your binder and watch your portfolio value update in real time with live market pricing and interactive charts.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">💰</div>
+                    <h3>Live Market Prices</h3>
+                    <p>Real-time pricing for every card across all sets. See the most valuable cards, compare set totals, and never overpay again.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🃏</div>
+                    <h3>Deck Builder</h3>
+                    <p>Build and manage deck lists with a visual editor. Import existing lists or create from scratch with auto-calculated market values.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Trade Center</h3>
+                    <p>Post wanted cards, browse bounties from other collectors, and propose trades directly in the app with notes and reviews.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🏆</div>
+                    <h3>Tournament Tracker</h3>
+                    <p>Log results match by match. Track wins, losses, and win rates across events with leader and location details.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">👥</div>
+                    <h3>Crew & Social</h3>
+                    <p>Build your crew, connect with friends, and follow their trades and activity on the Grand Line live social feed.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Support -->
+        <section class="support" id="support">
+            <div class="support-card fade-in">
+                <h2>Need Help?</h2>
+                <p>
+                    Have a question, found a bug, or want to suggest a feature? 
+                    We'd love to hear from you. Reach out anytime.
+                </p>
+                <a href="mailto:support@mugiapp.app" class="support-email">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                    support@mugiapp.app
+                </a>
+            </div>
+        </section>
+
+        <!-- Legal Links -->
+        <section class="legal">
+            <div class="legal-links">
+                <a href="/privacy">Privacy Policy</a>
+                <a href="/terms">Terms of Service</a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-brand">MUGI</div>
+            <div class="footer-copy">
+                &copy; 2026 Mugi. All rights reserved.
+            </div>
+            <div class="footer-disclaimer">
+                One Piece Card Game is a trademark of Bandai Co., Ltd. 
+                Mugi is not affiliated with, endorsed, sponsored, or specifically 
+                approved by Bandai. All card images and game content are the 
+                property of their respective owners.
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        // Simple scroll-triggered fade-in
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+
+</body>
+</html>
