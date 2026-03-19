@@ -436,6 +436,68 @@
             transform: translateY(0);
         }
 
+        /* === WAITLIST FORM === */
+        .waitlist-form-wrapper {
+            animation: fadeUp 0.8s ease 0.3s both;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+        .waitlist-form {
+            display: flex;
+            gap: 0;
+            width: 100%;
+        }
+        .waitlist-form input[type="email"] {
+            flex: 1;
+            font-family: 'DM Sans', system-ui, sans-serif;
+            font-size: 1rem;
+            padding: 16px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-right: none;
+            border-radius: 14px 0 0 14px;
+            color: var(--text-primary);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .waitlist-form input[type="email"]::placeholder { color: var(--text-muted); }
+        .waitlist-form input[type="email"]:focus { border-color: rgba(168, 85, 247, 0.4); }
+        .waitlist-form button {
+            font-family: 'DM Sans', system-ui, sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 16px 28px;
+            background: var(--purple-600);
+            color: white;
+            border: 1px solid var(--purple-600);
+            border-radius: 0 14px 14px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        .waitlist-form button:hover {
+            background: var(--purple-500);
+            border-color: var(--purple-500);
+            box-shadow: 0 8px 30px rgba(168, 85, 247, 0.3);
+        }
+        .waitlist-form button:disabled { opacity: 0.6; cursor: not-allowed; }
+        .form-message {
+            margin-top: 16px;
+            font-size: 0.9rem;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .form-message.success { display: flex; color: var(--green-400); }
+        .form-message.error { display: flex; color: #f87171; }
+        .waitlist-note {
+            margin-top: 16px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
         /* === RESPONSIVE === */
         @media (max-width: 640px) {
             .hero { padding: 80px 0 60px; }
@@ -443,6 +505,14 @@
             .stats-row { gap: 40px; }
             .support-card { padding: 40px 24px; }
             .features-grid { grid-template-columns: 1fr; }
+            .waitlist-form { flex-direction: column; }
+            .waitlist-form input[type="email"] {
+                border-right: 1px solid var(--border);
+                border-radius: 14px 14px 0 0;
+                border-bottom: none;
+            }
+            .waitlist-form input[type="email"]:focus { border-right-color: rgba(168, 85, 247, 0.4); }
+            .waitlist-form button { border-radius: 0 0 14px 14px; }
         }
     </style>
 </head>
@@ -468,33 +538,37 @@
         <section class="hero">
             <div class="hero-badge">
                 <span class="dot"></span>
-                Available on iOS
+                Launching April 2026
             </div>
             <h1>Your One Piece TCG<br><span class="accent">Companion App</span></h1>
             <p class="hero-sub">
-                Track your collection value with live market pricing, build decks, 
-                trade cards with friends, and log your tournament results.
+                Track your collection value with live market pricing, build decks,
+                trade cards with friends, and log your tournament results. Be the first to know when we launch.
             </p>
-            <a href="https://apps.apple.com/app/mugi" class="hero-cta">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-                Download on the App Store
-            </a>
+            <div class="waitlist-form-wrapper">
+                <form class="waitlist-form" id="waitlistForm">
+                    <input type="email" name="email" placeholder="your@email.com" required autocomplete="email" />
+                    <button type="submit">Join Waitlist</button>
+                </form>
+                <div class="form-message" id="formMessage"></div>
+                <p class="waitlist-note">Free on iOS. No spam, just a launch day heads up.</p>
+            </div>
         </section>
 
         <!-- Stats -->
         <section class="stats fade-in">
             <div class="stats-row">
                 <div class="stat">
-                    <div class="stat-number">4,300+</div>
+                    <div class="stat-number">4,900+</div>
                     <div class="stat-label">Cards Tracked</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-number">118</div>
-                    <div class="stat-label">Complete Sets</div>
+                    <div class="stat-number">26+</div>
+                    <div class="stat-label">Sets Covered</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-number">$239k+</div>
-                    <div class="stat-label">Market Value Tracked</div>
+                    <div class="stat-number">Daily</div>
+                    <div class="stat-label">Price Updates</div>
                 </div>
             </div>
         </section>
@@ -587,6 +661,36 @@
         }, { threshold: 0.1 });
 
         document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // Waitlist form handler
+        const WAITLIST_ENDPOINT = null; // Replace with Mailchimp/Buttondown/Loops endpoint
+        document.getElementById('waitlistForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const form = this;
+            const msg = document.getElementById('formMessage');
+            const email = form.querySelector('input[name="email"]').value;
+            const btn = form.querySelector('button');
+            btn.disabled = true;
+            btn.textContent = 'Joining...';
+            try {
+                if (WAITLIST_ENDPOINT) {
+                    await fetch(WAITLIST_ENDPOINT, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email }),
+                    });
+                }
+                form.style.display = 'none';
+                document.querySelector('.waitlist-note').style.display = 'none';
+                msg.className = 'form-message success';
+                msg.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> You\'re on the list. We\'ll let you know at launch.';
+            } catch (err) {
+                msg.className = 'form-message error';
+                msg.textContent = 'Something went wrong. Try again.';
+                btn.disabled = false;
+                btn.textContent = 'Join Waitlist';
+            }
+        });
     </script>
 
 </body>
