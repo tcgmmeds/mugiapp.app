@@ -662,8 +662,7 @@
 
         document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-        // Waitlist form handler
-        const WAITLIST_ENDPOINT = null; // Replace with Mailchimp/Buttondown/Loops endpoint
+        // Waitlist form handler — Mailchimp integration
         document.getElementById('waitlistForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const form = this;
@@ -673,13 +672,8 @@
             btn.disabled = true;
             btn.textContent = 'Joining...';
             try {
-                if (WAITLIST_ENDPOINT) {
-                    await fetch(WAITLIST_ENDPOINT, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ email }),
-                    });
-                }
+                const url = 'https://app.us13.list-manage.com/subscribe/post-json?u=0243d520d126eb5a059c213b3&id=27c2f18523&f_id=006851eaf0&EMAIL=' + encodeURIComponent(email) + '&b_0243d520d126eb5a059c213b3_27c2f18523=&c=__jp0';
+                await fetch(url, { mode: 'no-cors' });
                 form.style.display = 'none';
                 document.querySelector('.waitlist-note').style.display = 'none';
                 msg.className = 'form-message success';
