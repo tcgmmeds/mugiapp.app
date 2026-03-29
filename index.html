@@ -498,6 +498,35 @@
             text-align: center;
         }
 
+        /* === TESTFLIGHT BUTTON === */
+        .testflight-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 36px;
+            background: var(--purple-600);
+            color: white;
+            border-radius: 14px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            animation: fadeUp 0.8s ease 0.3s both;
+            margin-bottom: 12px;
+        }
+        .testflight-btn:hover {
+            background: var(--purple-500);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(168, 85, 247, 0.3);
+        }
+        .testflight-btn svg { width: 20px; height: 20px; }
+        .testflight-divider {
+            animation: fadeUp 0.8s ease 0.3s both;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
         /* === RESPONSIVE === */
         @media (max-width: 640px) {
             .hero { padding: 80px 0 60px; }
@@ -545,6 +574,11 @@
                 Track your collection value with live market pricing, build decks,
                 trade cards with friends, and log your tournament results. Be the first to know when we launch.
             </p>
+            <a href="https://testflight.apple.com/join/HM2dcsnP" target="_blank" rel="noopener noreferrer" class="testflight-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
+                Join the Beta on TestFlight
+            </a>
+            <div class="testflight-divider">or join the waitlist for launch updates</div>
             <div class="waitlist-form-wrapper">
                 <form class="waitlist-form" id="waitlistForm">
                     <input type="email" name="email" placeholder="your@email.com" required autocomplete="email" />
