@@ -256,18 +256,15 @@
             margin-bottom: 64px;
             animation: heroFadeUp 0.6s var(--ease) 0.56s both;
         }
-        .hero-phone-wrap {
+        .hero-showcase {
             position: relative;
-            display: flex;
-            justify-content: center;
             padding-bottom: 40px;
             animation: heroPhoneIn 0.9s var(--ease) 0.4s both;
         }
-        .hero-phone-wrap .phone { width: 320px; }
         .hero-glow {
             position: absolute;
             top: 50%; left: 50%;
-            width: 700px; height: 500px;
+            width: 900px; height: 600px;
             background: radial-gradient(ellipse at center, rgba(155,89,182,0.28) 0%, rgba(52,152,219,0.12) 45%, transparent 70%);
             filter: blur(60px);
             pointer-events: none;
@@ -393,22 +390,8 @@
         .feature-phone .phone { width: 280px; }
 
         /* ============================================================
-           SHOWCASE — Phone Trio
+           SHOWCASE PHONES (used in hero)
         ============================================================ */
-        .showcase {
-            padding: 100px 0;
-            position: relative;
-            overflow: hidden;
-        }
-        .showcase-glow {
-            position: absolute;
-            top: 50%; left: 50%;
-            width: 800px; height: 500px;
-            background: radial-gradient(ellipse at center, rgba(155,89,182,0.2) 0%, rgba(52,152,219,0.1) 40%, transparent 70%);
-            filter: blur(80px);
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-        }
         .showcase-phones {
             display: flex;
             justify-content: center;
@@ -747,14 +730,14 @@
             .site-nav { padding: 0 20px; }
             .container { padding: 0 20px; }
             .hero { padding: 120px 0 0; }
-            .hero-phone-wrap .phone { width: 260px; }
+            .showcase-phones .phone { width: 220px; }
             .hero-buttons { flex-direction: column; width: 100%; }
             .hero-buttons .btn-primary,
             .hero-buttons .btn-outline { width: 100%; justify-content: center; }
             .features-section { padding: 60px 0 40px; }
             .feature-row { margin-bottom: 48px; }
             .feature-card { padding: 28px; }
-            .showcase { padding: 60px 0; }
+
             .stats-section { padding: 48px 0; }
             .bottom-cta { padding: 60px 0; }
             .nav-right { gap: 16px; }
@@ -775,7 +758,7 @@
             .feature-row.anim .feature-card,
             .feature-row.anim .feature-phone,
             .hero-line, .hero-badge, .hero-sub,
-            .hero-buttons, .hero-phone-wrap {
+            .hero-buttons, .hero-showcase {
                 opacity: 1 !important;
                 transform: none !important;
             }
@@ -814,13 +797,17 @@
                 </a>
                 <a href="#waitlist" class="btn-outline">Join Waitlist</a>
             </div>
-            <div class="hero-phone-wrap">
+            <div class="hero-showcase">
                 <div class="hero-glow"></div>
-                <div class="phone" style="--float-speed: 5.2s">
-                    <div class="phone-frame">
-                        <div class="phone-screen">
-                            <img src="images/tournament.png" alt="Tournament tracker in Mugi app" />
-                        </div>
+                <div class="showcase-phones">
+                    <div class="phone phone-left" style="--float-speed: 4.4s">
+                        <div class="phone-frame"><div class="phone-screen"><img src="images/card-sets.png" alt="Browse card sets" /></div></div>
+                    </div>
+                    <div class="phone phone-center" style="--float-speed: 5s">
+                        <div class="phone-frame"><div class="phone-screen"><img src="images/tournament.png" alt="Tournament tracker" /></div></div>
+                    </div>
+                    <div class="phone phone-right" style="--float-speed: 4.7s">
+                        <div class="phone-frame"><div class="phone-screen"><img src="images/grand-line.png" alt="Grand Line feed" /></div></div>
                     </div>
                 </div>
             </div>
@@ -956,23 +943,6 @@
         </div>
     </section>
 
-    <!-- ========== SHOWCASE — Phone Trio ========== -->
-    <section class="showcase anim">
-        <div class="showcase-glow"></div>
-        <div class="container">
-            <div class="showcase-phones">
-                <div class="phone phone-left" style="--float-speed: 4.4s">
-                    <div class="phone-frame"><div class="phone-screen"><img src="images/card-sets.png" alt="Browse card sets" /></div></div>
-                </div>
-                <div class="phone phone-center" style="--float-speed: 5s">
-                    <div class="phone-frame"><div class="phone-screen"><img src="images/tournament.png" alt="Tournament tracker" /></div></div>
-                </div>
-                <div class="phone phone-right" style="--float-speed: 4.7s">
-                    <div class="phone-frame"><div class="phone-screen"><img src="images/grand-line.png" alt="Grand Line feed" /></div></div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- ========== STATS ========== -->
     <section class="stats-section">
