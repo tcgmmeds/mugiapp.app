@@ -32,6 +32,7 @@
             --text-muted: #5a5a6e;
             --border: #1e1e1e;
             --divider: #1a1a1a;
+            --ease-out-expo: cubic-bezier(0.22, 1.0, 0.36, 1.0);
         }
 
         html { scroll-behavior: smooth; }
@@ -53,10 +54,18 @@
             right: 0;
             z-index: 100;
             padding: 0 32px;
-            background: rgba(10, 10, 10, 0.8);
+            background: transparent;
+            backdrop-filter: blur(0px);
+            -webkit-backdrop-filter: blur(0px);
+            border-bottom: 1px solid transparent;
+            transition: background 0.35s ease, backdrop-filter 0.35s ease, -webkit-backdrop-filter 0.35s ease, border-color 0.35s ease;
+        }
+
+        .site-nav.scrolled {
+            background: rgba(10, 10, 10, 0.85);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(30, 30, 30, 0.6);
+            border-bottom-color: rgba(30, 30, 30, 0.6);
         }
 
         .site-nav .nav-inner {
@@ -100,12 +109,21 @@
             padding: 0 32px;
         }
 
+        /* === ANIMATED SECTION DIVIDER === */
         .section-divider {
-            border: none;
             height: 1px;
-            background: var(--divider);
             max-width: 1120px;
             margin: 0 auto;
+            background: linear-gradient(90deg, transparent 0%, var(--purple) 50%, transparent 100%);
+            background-size: 200% 100%;
+            background-position: -100% 0;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .section-divider.visible {
+            opacity: 0.6;
+            animation: shimmerLine 1.4s var(--ease-out-expo) forwards;
         }
 
         .section-label {
@@ -152,8 +170,8 @@
         .btn-primary:hover {
             background: var(--purple-light);
             border-color: var(--purple-light);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 32px rgba(155, 89, 182, 0.35);
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 0 20px rgba(155, 89, 182, 0.25), 0 8px 32px rgba(155, 89, 182, 0.35);
         }
 
         .btn-primary ion-icon { font-size: 20px; }
@@ -174,6 +192,7 @@
         }
 
         .btn-outline:hover {
+            background: rgba(155, 89, 182, 0.1);
             border-color: var(--purple);
             color: var(--purple);
             transform: translateY(-2px);
@@ -184,6 +203,8 @@
             position: relative;
             width: 280px;
             flex-shrink: 0;
+            will-change: transform;
+            animation: phoneFloat var(--float-speed, 5s) ease-in-out infinite;
         }
 
         .phone-frame {
@@ -195,6 +216,11 @@
                 0 0 0 1px rgba(255,255,255,0.04),
                 0 25px 60px rgba(0,0,0,0.5),
                 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.4s var(--ease-out-expo);
+        }
+
+        .phone:hover .phone-frame {
+            transform: scale(1.02);
         }
 
         .phone-screen {
@@ -225,10 +251,6 @@
             align-items: center;
         }
 
-        .hero-text {
-            animation: fadeUp 0.8s ease both;
-        }
-
         .hero-badge {
             display: inline-flex;
             align-items: center;
@@ -241,6 +263,7 @@
             font-size: 0.75rem;
             color: var(--purple);
             margin-bottom: 28px;
+            animation: heroBadgeIn 0.5s var(--ease-out-expo) 0.1s both;
         }
 
         .hero-badge .dot {
@@ -260,11 +283,20 @@
 
         .hero h1 .accent { color: var(--purple); }
 
+        .hero-line {
+            display: block;
+            animation: heroFadeUp 0.6s var(--ease-out-expo) both;
+        }
+
+        .hero-line:nth-child(1) { animation-delay: 0.2s; }
+        .hero-line:nth-child(2) { animation-delay: 0.32s; }
+
         .hero-tagline {
             font-size: clamp(1rem, 2vw, 1.25rem);
             font-weight: 700;
             color: var(--purple);
             margin-bottom: 20px;
+            animation: heroFadeUp 0.6s var(--ease-out-expo) 0.42s both;
         }
 
         .hero-sub {
@@ -273,6 +305,7 @@
             max-width: 480px;
             line-height: 1.7;
             margin-bottom: 36px;
+            animation: heroFadeUp 0.6s var(--ease-out-expo) 0.52s both;
         }
 
         .hero-buttons {
@@ -281,16 +314,18 @@
             gap: 14px;
             flex-wrap: wrap;
             margin-bottom: 16px;
+            animation: heroFadeUp 0.6s var(--ease-out-expo) 0.62s both;
         }
 
         .hero-fine {
             font-size: 0.82rem;
             color: var(--text-muted);
+            animation: heroFadeUp 0.5s var(--ease-out-expo) 0.72s both;
         }
 
         .hero-phone {
-            animation: fadeUp 0.8s ease 0.2s both;
             position: relative;
+            animation: heroSlideRight 0.9s var(--ease-out-expo) 0.35s both;
         }
 
         .hero-phone .phone { width: 280px; margin: 0 auto; }
@@ -299,13 +334,62 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(155,89,182,0.25), transparent 65%);
+            width: 420px;
+            height: 420px;
+            background: radial-gradient(circle, rgba(155,89,182,0.2) 0%, transparent 70%);
             filter: blur(60px);
             pointer-events: none;
             z-index: -1;
+            animation: glowPulse 3.5s ease-in-out infinite;
+        }
+
+        /* === SCROLL ANIMATION BASE === */
+        .anim {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s var(--ease-out-expo), transform 0.7s var(--ease-out-expo);
+            will-change: transform, opacity;
+        }
+
+        .anim.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Feature rows: children slide in from sides */
+        .feature-row.anim {
+            opacity: 1;
+            transform: none;
+            transition: none;
+        }
+
+        .feature-row.anim .feature-info {
+            opacity: 0;
+            transform: translateX(-60px);
+            transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
+            will-change: transform, opacity;
+        }
+
+        .feature-row.anim .feature-phone {
+            opacity: 0;
+            transform: translateX(60px);
+            transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
+            transition-delay: 0.12s;
+            will-change: transform, opacity;
+        }
+
+        .feature-row.anim.reversed .feature-info {
+            transform: translateX(60px);
+        }
+
+        .feature-row.anim.reversed .feature-phone {
+            transform: translateX(-60px);
+        }
+
+        .feature-row.anim.visible .feature-info,
+        .feature-row.anim.visible .feature-phone {
+            opacity: 1;
+            transform: translateX(0);
         }
 
         /* === FEATURE ROW === */
@@ -496,7 +580,7 @@
         .waitlist-form button:hover {
             background: var(--purple-light);
             border-color: var(--purple-light);
-            box-shadow: 0 8px 30px rgba(155, 89, 182, 0.3);
+            box-shadow: 0 0 20px rgba(155, 89, 182, 0.25), 0 8px 30px rgba(155, 89, 182, 0.3);
         }
 
         .waitlist-form button:disabled { opacity: 0.6; cursor: not-allowed; }
@@ -606,10 +690,35 @@
             line-height: 1.6;
         }
 
-        /* === ANIMATIONS === */
-        @keyframes fadeUp {
+        /* === KEYFRAME ANIMATIONS === */
+        @keyframes heroBadgeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes heroFadeUp {
             from { opacity: 0; transform: translateY(24px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes heroSlideRight {
+            from { opacity: 0; transform: translateX(100px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes phoneFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+            50% { transform: translate(-50%, -50%) scale(1.08); opacity: 1; }
+        }
+
+        @keyframes shimmerLine {
+            from { background-position: -100% 0; }
+            to { background-position: 100% 0; }
         }
 
         @keyframes pulse {
@@ -617,15 +726,9 @@
             50% { opacity: 0.4; }
         }
 
-        .fade-in {
-            opacity: 0;
-            transform: translateY(24px);
-            transition: opacity 0.7s ease, transform 0.7s ease;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* === RESPONSIVE === */
@@ -673,10 +776,32 @@
                 margin-left: auto;
                 margin-right: auto;
             }
+
+            /* On mobile, feature children slide up instead of sideways */
+            .feature-row.anim .feature-info,
+            .feature-row.anim .feature-phone,
+            .feature-row.anim.reversed .feature-info,
+            .feature-row.anim.reversed .feature-phone {
+                transform: translateY(30px);
+            }
+
+            .feature-row.anim.visible .feature-info,
+            .feature-row.anim.visible .feature-phone {
+                transform: translateY(0);
+            }
+
+            .hero-phone {
+                animation-name: heroFadeUp;
+            }
         }
 
         @media (max-width: 768px) {
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
+
+            /* Disable floating on small screens */
+            .phone {
+                animation: none;
+            }
         }
 
         @media (max-width: 640px) {
@@ -702,6 +827,39 @@
             .waitlist-form input[type="email"]:focus { border-right-color: rgba(155, 89, 182, 0.4); }
             .waitlist-form button { border-radius: 0 0 14px 14px; }
         }
+
+        /* === ACCESSIBILITY: REDUCED MOTION === */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.001ms !important;
+                scroll-behavior: auto !important;
+            }
+
+            .anim,
+            .feature-row.anim .feature-info,
+            .feature-row.anim .feature-phone {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+
+            .section-divider {
+                opacity: 0.6 !important;
+                background: var(--divider) !important;
+            }
+
+            .hero-line,
+            .hero-badge,
+            .hero-tagline,
+            .hero-sub,
+            .hero-buttons,
+            .hero-fine,
+            .hero-phone {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -726,7 +884,10 @@
                         <span class="dot"></span>
                         OPEN BETA &mdash; iOS
                     </div>
-                    <h1>Built for <span class="accent">players</span>,<br>not just collectors.</h1>
+                    <h1>
+                        <span class="hero-line">Built for <span class="accent">players</span>,</span>
+                        <span class="hero-line">not just collectors.</span>
+                    </h1>
                     <p class="hero-tagline">Your One Piece TCG companion app.</p>
                     <p class="hero-sub">Log your tournament results. Build validated decks. Save matchup strategy. Trade with your crew. Message your friends. All in one app.</p>
                     <div class="hero-buttons">
@@ -740,7 +901,7 @@
                 </div>
                 <div class="hero-phone">
                     <div class="hero-glow"></div>
-                    <div class="phone">
+                    <div class="phone" style="--float-speed: 5.2s">
                         <div class="phone-frame">
                             <div class="phone-screen">
                                 <img src="images/hero-binder.png" alt="Mugi binder view with portfolio chart" />
@@ -752,17 +913,17 @@
         </div>
     </section>
 
-    <hr class="section-divider">
+    <div class="section-divider anim"></div>
 
     <!-- COMPETE -->
     <section class="feature-section" id="features">
         <div class="container">
-            <div class="section-label fade-in">COMPETE</div>
-            <h2 class="section-heading fade-in">Level up your game</h2>
-            <p class="section-sub fade-in">Tools built around how competitive players actually prepare, play, and improve.</p>
+            <div class="section-label anim">COMPETE</div>
+            <h2 class="section-heading anim" style="transition-delay: 0.1s">Level up your game</h2>
+            <p class="section-sub anim" style="transition-delay: 0.2s">Tools built around how competitive players actually prepare, play, and improve.</p>
 
             <!-- Tournament Tracker -->
-            <div class="feature-row highlighted-card fade-in">
+            <div class="feature-row highlighted-card anim">
                 <div class="feature-info">
                     <div class="feature-icon-wrap purple">
                         <ion-icon name="trophy-outline"></ion-icon>
@@ -771,7 +932,7 @@
                     <p>Log matches with leader selection, W/L, dice roll, first or second. Add full-page strategy notes per event. Export shareable tournament recaps as images.</p>
                 </div>
                 <div class="feature-phone">
-                    <div class="phone">
+                    <div class="phone" style="--float-speed: 4.6s">
                         <div class="phone-frame">
                             <div class="phone-screen">
                                 <img src="images/tournament.png" alt="Tournament tracker screen" />
@@ -782,7 +943,7 @@
             </div>
 
             <!-- Deck Builder -->
-            <div class="feature-row reversed fade-in">
+            <div class="feature-row reversed anim">
                 <div class="feature-info">
                     <div class="feature-icon-wrap purple">
                         <ion-icon name="layers-outline"></ion-icon>
@@ -791,7 +952,7 @@
                     <p>Build decks with auto-validation — color matching, 4-copy limits, 50-card requirement. See stat breakdowns by cost, counter, and trait. Cycle through leader art variants.</p>
                 </div>
                 <div class="feature-phone">
-                    <div class="phone">
+                    <div class="phone" style="--float-speed: 5.4s">
                         <div class="phone-frame">
                             <div class="phone-screen">
                                 <img src="images/deck-builder.png" alt="Deck builder screen" />
@@ -802,7 +963,7 @@
             </div>
 
             <!-- Matchup Notes -->
-            <div class="feature-row fade-in">
+            <div class="feature-row anim">
                 <div class="feature-info">
                     <div class="feature-icon-wrap purple">
                         <ion-icon name="document-text-outline"></ion-icon>
@@ -811,7 +972,7 @@
                     <p>Save strategy notes for every leader-vs-leader matchup. Track your win rate against specific leaders. Know your game plan before you sit down.</p>
                 </div>
                 <div class="feature-phone">
-                    <div class="phone">
+                    <div class="phone" style="--float-speed: 4.3s">
                         <div class="phone-frame">
                             <div class="phone-screen">
                                 <img src="images/matchup-notes.png" alt="Matchup notes screen" />
@@ -823,17 +984,17 @@
         </div>
     </section>
 
-    <hr class="section-divider">
+    <div class="section-divider anim"></div>
 
     <!-- CONNECT -->
     <section class="feature-section">
         <div class="container">
-            <div class="section-label fade-in">CONNECT</div>
-            <h2 class="section-heading fade-in">Find your crew</h2>
-            <p class="section-sub fade-in">Trade, chat, and share with other players. Not another marketplace — a community.</p>
+            <div class="section-label anim">CONNECT</div>
+            <h2 class="section-heading anim" style="transition-delay: 0.1s">Find your crew</h2>
+            <p class="section-sub anim" style="transition-delay: 0.2s">Trade, chat, and share with other players. Not another marketplace — a community.</p>
 
             <!-- Crew & Social -->
-            <div class="feature-row reversed fade-in">
+            <div class="feature-row reversed anim">
                 <div class="feature-info">
                     <div class="feature-icon-wrap green">
                         <ion-icon name="people-outline"></ion-icon>
@@ -842,7 +1003,7 @@
                     <p>Add friends, post to the Grand Line feed, upvote and downvote, and DM your crew with text, cards, and images. Your community lives here.</p>
                 </div>
                 <div class="feature-phone">
-                    <div class="phone">
+                    <div class="phone" style="--float-speed: 5.1s">
                         <div class="phone-frame">
                             <div class="phone-screen">
                                 <img src="images/grand-line.png" alt="Grand Line social feed" />
@@ -853,7 +1014,7 @@
             </div>
 
             <!-- Trade Center -->
-            <div class="feature-row fade-in">
+            <div class="feature-row anim">
                 <div class="feature-info">
                     <div class="feature-icon-wrap green">
                         <ion-icon name="swap-horizontal-outline"></ion-icon>
@@ -862,7 +1023,7 @@
                     <p>Propose trades with friends, track pending offers, and message to negotiate. Post wanted cards so your crew knows what you're looking for.</p>
                 </div>
                 <div class="feature-phone">
-                    <div class="phone">
+                    <div class="phone" style="--float-speed: 4.8s">
                         <div class="phone-frame">
                             <div class="phone-screen">
                                 <img src="images/trade-center.png" alt="Trade center screen" />
@@ -874,17 +1035,17 @@
         </div>
     </section>
 
-    <hr class="section-divider">
+    <div class="section-divider anim"></div>
 
     <!-- COLLECT -->
     <section class="feature-section">
         <div class="container">
-            <div class="section-label fade-in">COLLECT</div>
-            <h2 class="section-heading fade-in">Track everything you own</h2>
-            <p class="section-sub fade-in">Your collection, organized and priced. Binders, grading, portfolio charts — it's all here.</p>
+            <div class="section-label anim">COLLECT</div>
+            <h2 class="section-heading anim" style="transition-delay: 0.1s">Track everything you own</h2>
+            <p class="section-sub anim" style="transition-delay: 0.2s">Your collection, organized and priced. Binders, grading, portfolio charts — it's all here.</p>
 
             <!-- Binders & Collection -->
-            <div class="feature-row reversed fade-in">
+            <div class="feature-row reversed anim">
                 <div class="feature-info">
                     <div class="feature-icon-wrap blue">
                         <ion-icon name="library-outline"></ion-icon>
@@ -893,7 +1054,7 @@
                     <p>Organize cards into custom binders with per-binder portfolio charts. Track graded cards with multi-entry grading and see their value over time.</p>
                 </div>
                 <div class="feature-phone">
-                    <div class="phone">
+                    <div class="phone" style="--float-speed: 4.5s">
                         <div class="phone-frame">
                             <div class="phone-screen">
                                 <img src="images/card-sets.png" alt="Card sets browser" />
@@ -904,7 +1065,7 @@
             </div>
 
             <!-- Live Market Prices -->
-            <div class="feature-row fade-in">
+            <div class="feature-row anim">
                 <div class="feature-info">
                     <div class="feature-icon-wrap blue">
                         <ion-icon name="trending-up-outline"></ion-icon>
@@ -913,7 +1074,7 @@
                     <p>TCGPlayer prices synced 4x daily across 4,900+ cards. Your portfolio updates automatically. Browse by set or check what's trending on the market tab.</p>
                 </div>
                 <div class="feature-phone">
-                    <div class="phone">
+                    <div class="phone" style="--float-speed: 5.6s">
                         <div class="phone-frame">
                             <div class="phone-screen">
                                 <img src="images/card-detail.png" alt="Card detail with pricing" />
@@ -925,25 +1086,25 @@
         </div>
     </section>
 
-    <hr class="section-divider">
+    <div class="section-divider anim"></div>
 
     <!-- Stats -->
-    <section class="stats fade-in">
+    <section class="stats">
         <div class="container">
             <div class="stats-grid">
-                <div class="stat-card">
+                <div class="stat-card anim">
                     <div class="stat-number">4,900+</div>
                     <div class="stat-label">Cards</div>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card anim" style="transition-delay: 0.1s">
                     <div class="stat-number">26+</div>
                     <div class="stat-label">Sets</div>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card anim" style="transition-delay: 0.2s">
                     <div class="stat-number">4x</div>
                     <div class="stat-label">Daily sync</div>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card anim" style="transition-delay: 0.3s">
                     <div class="stat-number">100%</div>
                     <div class="stat-label">Free</div>
                 </div>
@@ -951,18 +1112,20 @@
         </div>
     </section>
 
-    <hr class="section-divider">
+    <div class="section-divider anim"></div>
 
     <!-- Bottom CTA -->
     <section class="bottom-cta" id="waitlist">
         <div class="container">
-            <h2 class="section-heading">Ready to set sail?</h2>
-            <p class="section-sub">Download the beta on TestFlight today or drop your email and we'll let you know when Mugi hits the App Store.</p>
-            <a href="https://testflight.apple.com/join/HM2dcsnP" target="_blank" rel="noopener noreferrer" class="btn-primary">
-                <ion-icon name="download-outline"></ion-icon>
-                Download beta (TestFlight)
-            </a>
-            <div class="waitlist-form-wrapper">
+            <h2 class="section-heading anim">Ready to set sail?</h2>
+            <p class="section-sub anim" style="transition-delay: 0.1s">Download the beta on TestFlight today or drop your email and we'll let you know when Mugi hits the App Store.</p>
+            <div class="anim" style="transition-delay: 0.2s">
+                <a href="https://testflight.apple.com/join/HM2dcsnP" target="_blank" rel="noopener noreferrer" class="btn-primary">
+                    <ion-icon name="download-outline"></ion-icon>
+                    Download beta (TestFlight)
+                </a>
+            </div>
+            <div class="waitlist-form-wrapper anim" style="transition-delay: 0.3s">
                 <form class="waitlist-form" id="waitlistForm">
                     <input type="email" name="email" placeholder="your@email.com" required autocomplete="email" />
                     <button type="submit">Notify me</button>
@@ -973,12 +1136,12 @@
         </div>
     </section>
 
-    <hr class="section-divider">
+    <div class="section-divider anim"></div>
 
     <!-- Support -->
     <section class="support" id="support">
         <div class="container">
-            <div class="support-card fade-in">
+            <div class="support-card anim">
                 <h2>Need Help?</h2>
                 <p>Have a question, found a bug, or want to suggest a feature? We'd love to hear from you. Reach out anytime.</p>
                 <a href="mailto:support@mugiapp.app" class="support-email">
@@ -1008,58 +1171,108 @@
     </footer>
 
     <script>
-        // Scroll-triggered fade-in
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+        (function() {
+            var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            // === NAV SCROLL STATE ===
+            var nav = document.querySelector('.site-nav');
+            var navScrolled = false;
+
+            function checkNavScroll() {
+                var shouldScroll = window.scrollY > 50;
+                if (shouldScroll !== navScrolled) {
+                    navScrolled = shouldScroll;
+                    if (navScrolled) {
+                        nav.classList.add('scrolled');
+                    } else {
+                        nav.classList.remove('scrolled');
+                    }
                 }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-        // Waitlist form — Mailchimp JSONP
-        document.getElementById('waitlistForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const form = this;
-            const msg = document.getElementById('formMessage');
-            const email = form.querySelector('input[name="email"]').value;
-            const btn = form.querySelector('button');
-            btn.disabled = true;
-            btn.textContent = 'Joining...';
-
-            if (window.__mcCallback) {
-                delete window.__mcCallback;
             }
-            const oldScript = document.getElementById('mc-jsonp');
-            if (oldScript) oldScript.remove();
 
-            window.__mcCallback = function(data) {
-                if (data.result === 'success' || data.msg.includes('already subscribed')) {
-                    form.style.display = 'none';
-                    document.querySelector('.waitlist-note').style.display = 'none';
-                    msg.className = 'form-message success';
-                    msg.innerHTML = '<ion-icon name="checkmark-outline" style="font-size:18px"></ion-icon> You\'re on the list. We\'ll let you know at launch.';
-                } else {
+            window.addEventListener('scroll', checkNavScroll, { passive: true });
+            checkNavScroll();
+
+            // === SCROLL ANIMATIONS ===
+            var animObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        animObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            document.querySelectorAll('.anim').forEach(function(el) {
+                animObserver.observe(el);
+            });
+
+            // === PARALLAX (desktop + no reduced motion) ===
+            if (!prefersReduced && window.innerWidth >= 768) {
+                var featurePhones = document.querySelectorAll('.feature-row .feature-phone');
+                var ticking = false;
+
+                window.addEventListener('scroll', function() {
+                    if (!ticking) {
+                        requestAnimationFrame(function() {
+                            var viewCenter = window.innerHeight * 0.5;
+                            featurePhones.forEach(function(phone) {
+                                var rect = phone.getBoundingClientRect();
+                                var elemCenter = rect.top + rect.height * 0.5;
+                                var offset = (elemCenter - viewCenter) * -0.03;
+                                if (offset < -20) offset = -20;
+                                if (offset > 20) offset = 20;
+                                phone.style.transform = 'translateY(' + offset + 'px)';
+                            });
+                            ticking = false;
+                        });
+                        ticking = true;
+                    }
+                }, { passive: true });
+            }
+
+            // === MAILCHIMP WAITLIST FORM (JSONP) ===
+            document.getElementById('waitlistForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                var form = this;
+                var msg = document.getElementById('formMessage');
+                var email = form.querySelector('input[name="email"]').value;
+                var btn = form.querySelector('button');
+                btn.disabled = true;
+                btn.textContent = 'Joining...';
+
+                if (window.__mcCallback) {
+                    delete window.__mcCallback;
+                }
+                var oldScript = document.getElementById('mc-jsonp');
+                if (oldScript) oldScript.remove();
+
+                window.__mcCallback = function(data) {
+                    if (data.result === 'success' || data.msg.includes('already subscribed')) {
+                        form.style.display = 'none';
+                        document.querySelector('.waitlist-note').style.display = 'none';
+                        msg.className = 'form-message success';
+                        msg.innerHTML = '<ion-icon name="checkmark-outline" style="font-size:18px"></ion-icon> You\'re on the list. We\'ll let you know at launch.';
+                    } else {
+                        msg.className = 'form-message error';
+                        msg.textContent = 'Something went wrong. Try again.';
+                        btn.disabled = false;
+                        btn.textContent = 'Notify me';
+                    }
+                };
+
+                var script = document.createElement('script');
+                script.id = 'mc-jsonp';
+                script.src = 'https://app.us13.list-manage.com/subscribe/post-json?u=0243d520d126eb5a059c213b3&id=27c2f18523&f_id=006851eaf0&EMAIL=' + encodeURIComponent(email) + '&b_0243d520d126eb5a059c213b3_27c2f18523=&c=__mcCallback';
+                script.onerror = function() {
                     msg.className = 'form-message error';
                     msg.textContent = 'Something went wrong. Try again.';
                     btn.disabled = false;
                     btn.textContent = 'Notify me';
-                }
-            };
-
-            const script = document.createElement('script');
-            script.id = 'mc-jsonp';
-            script.src = 'https://app.us13.list-manage.com/subscribe/post-json?u=0243d520d126eb5a059c213b3&id=27c2f18523&f_id=006851eaf0&EMAIL=' + encodeURIComponent(email) + '&b_0243d520d126eb5a059c213b3_27c2f18523=&c=__mcCallback';
-            script.onerror = function() {
-                msg.className = 'form-message error';
-                msg.textContent = 'Something went wrong. Try again.';
-                btn.disabled = false;
-                btn.textContent = 'Notify me';
-            };
-            document.body.appendChild(script);
-        });
+                };
+                document.body.appendChild(script);
+            });
+        })();
     </script>
 
 </body>
