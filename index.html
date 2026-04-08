@@ -13,22 +13,25 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --bg-primary: #0a0a10;
-            --bg-card: #13131d;
-            --bg-card-hover: #1a1a28;
-            --purple-400: #c084fc;
-            --purple-500: #a855f7;
-            --purple-600: #9333ea;
-            --purple-900: #3b0764;
-            --green-400: #4ade80;
+            --bg-primary: #0a0a0a;
+            --bg-card: #111111;
+            --bg-card-hover: #161616;
+            --purple: #9B59B6;
+            --purple-light: #b07cc6;
+            --purple-dark: #7d3f9e;
+            --green: #2ecc71;
+            --blue: #3498db;
             --text-primary: #f0f0f5;
             --text-secondary: #9898aa;
             --text-muted: #5a5a6e;
-            --border: #1e1e2e;
+            --border: #1e1e1e;
+            --divider: #1a1a1a;
         }
 
         html { scroll-behavior: smooth; }
@@ -63,20 +66,20 @@
 
         .glow-orb-1 {
             width: 600px; height: 600px;
-            background: radial-gradient(circle, rgba(168, 85, 247, 0.15), transparent 70%);
+            background: radial-gradient(circle, rgba(155, 89, 182, 0.15), transparent 70%);
             top: -200px; left: 50%; transform: translateX(-50%);
         }
 
         .glow-orb-2 {
             width: 400px; height: 400px;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.1), transparent 70%);
-            top: 600px; right: -100px;
+            background: radial-gradient(circle, rgba(52, 152, 219, 0.1), transparent 70%);
+            top: 800px; right: -100px;
         }
 
         .glow-orb-3 {
             width: 500px; height: 500px;
-            background: radial-gradient(circle, rgba(168, 85, 247, 0.08), transparent 70%);
-            bottom: 200px; left: -150px;
+            background: radial-gradient(circle, rgba(155, 89, 182, 0.08), transparent 70%);
+            bottom: 400px; left: -150px;
         }
 
         /* === LAYOUT === */
@@ -101,7 +104,7 @@
             font-weight: 700;
             font-size: 1.5rem;
             letter-spacing: 0.08em;
-            color: var(--purple-400);
+            color: var(--purple);
             text-decoration: none;
         }
 
@@ -133,19 +136,19 @@
             align-items: center;
             gap: 8px;
             padding: 8px 20px;
-            background: rgba(168, 85, 247, 0.1);
-            border: 1px solid rgba(168, 85, 247, 0.2);
+            background: rgba(155, 89, 182, 0.1);
+            border: 1px solid rgba(155, 89, 182, 0.2);
             border-radius: 100px;
             font-family: 'Space Mono', monospace;
             font-size: 0.8rem;
-            color: var(--purple-400);
+            color: var(--purple);
             margin-bottom: 32px;
             animation: fadeUp 0.8s ease both;
         }
 
         .hero-badge .dot {
             width: 6px; height: 6px;
-            background: var(--green-400);
+            background: var(--green);
             border-radius: 50%;
             animation: pulse 2s ease infinite;
         }
@@ -155,125 +158,210 @@
             font-weight: 700;
             line-height: 1.1;
             letter-spacing: -0.03em;
-            margin-bottom: 24px;
+            margin-bottom: 16px;
             animation: fadeUp 0.8s ease 0.1s both;
         }
 
         .hero h1 .accent {
-            background: linear-gradient(135deg, var(--purple-400), var(--purple-600));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--purple);
+        }
+
+        .hero-tagline {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            font-weight: 700;
+            color: var(--purple);
+            margin-bottom: 24px;
+            animation: fadeUp 0.8s ease 0.15s both;
         }
 
         .hero-sub {
-            font-size: clamp(1.05rem, 2vw, 1.25rem);
+            font-size: clamp(1rem, 2vw, 1.15rem);
             color: var(--text-secondary);
-            max-width: 540px;
+            max-width: 580px;
             margin: 0 auto 48px;
             line-height: 1.7;
             animation: fadeUp 0.8s ease 0.2s both;
         }
 
-        .hero-cta {
+        .hero-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            animation: fadeUp 0.8s ease 0.3s both;
+            margin-bottom: 16px;
+        }
+
+        .btn-primary {
             display: inline-flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             padding: 16px 36px;
-            background: var(--purple-600);
+            background: var(--purple);
             color: white;
             border-radius: 14px;
             text-decoration: none;
             font-weight: 600;
             font-size: 1.05rem;
             transition: all 0.3s ease;
-            animation: fadeUp 0.8s ease 0.3s both;
+            border: 1px solid var(--purple);
         }
 
-        .hero-cta:hover {
-            background: var(--purple-500);
+        .btn-primary:hover {
+            background: var(--purple-light);
+            border-color: var(--purple-light);
             transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(168, 85, 247, 0.3);
+            box-shadow: 0 8px 30px rgba(155, 89, 182, 0.3);
         }
 
-        .hero-cta svg { width: 20px; height: 20px; }
+        .btn-primary ion-icon { font-size: 20px; }
 
-        /* === FEATURES === */
-        .features {
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 36px;
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--purple);
+            color: var(--purple);
+            transform: translateY(-2px);
+        }
+
+        .hero-fine-print {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            animation: fadeUp 0.8s ease 0.35s both;
+        }
+
+        /* === SECTION SHARED === */
+        .section-divider {
+            border: none;
+            height: 1px;
+            background: var(--divider);
+            margin: 0;
+        }
+
+        .section-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--purple);
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+        }
+
+        .section-subtitle {
+            font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+            color: var(--text-secondary);
+            max-width: 560px;
+            line-height: 1.7;
+            margin-bottom: 40px;
+        }
+
+        /* === FEATURE SECTIONS === */
+        .feature-section {
             padding: 80px 0;
         }
 
-        .features-label {
-            font-family: 'Space Mono', monospace;
-            font-size: 0.8rem;
-            color: var(--purple-400);
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            text-align: center;
-            margin-bottom: 16px;
-        }
-
-        .features-heading {
-            font-size: clamp(1.8rem, 4vw, 2.5rem);
-            font-weight: 700;
-            text-align: center;
-            letter-spacing: -0.02em;
-            margin-bottom: 64px;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+        .feature-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
 
         .feature-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 32px 28px;
+            border-radius: 10px;
+            padding: 28px 28px;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--purple-500), transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
         }
 
         .feature-card:hover {
             background: var(--bg-card-hover);
-            border-color: rgba(168, 85, 247, 0.15);
-            transform: translateY(-4px);
+            transform: translateY(-2px);
         }
 
-        .feature-card:hover::before { opacity: 1; }
+        .feature-card.highlighted {
+            border-color: rgba(155, 89, 182, 0.4);
+            background: rgba(155, 89, 182, 0.05);
+        }
+
+        .feature-card.highlighted:hover {
+            background: rgba(155, 89, 182, 0.08);
+        }
 
         .feature-icon {
-            width: 44px; height: 44px;
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(168, 85, 247, 0.1);
-            border-radius: 12px;
-            margin-bottom: 20px;
-            font-size: 1.3rem;
+            border-radius: 10px;
+            font-size: 1.2rem;
         }
 
-        .feature-card h3 {
-            font-size: 1.1rem;
+        .feature-icon.purple {
+            background: rgba(155, 89, 182, 0.15);
+            color: var(--purple);
+        }
+
+        .feature-icon.green {
+            background: rgba(46, 204, 113, 0.15);
+            color: var(--green);
+        }
+
+        .feature-icon.blue {
+            background: rgba(52, 152, 219, 0.15);
+            color: var(--blue);
+        }
+
+        .feature-content h3 {
+            font-size: 1.05rem;
             font-weight: 600;
-            margin-bottom: 10px;
+            margin-bottom: 6px;
             letter-spacing: -0.01em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .feature-card p {
+        .badge-new {
+            display: inline-block;
+            padding: 2px 8px;
+            background: var(--purple);
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 700;
+            border-radius: 100px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            line-height: 1.6;
+        }
+
+        .feature-content p {
             color: var(--text-secondary);
             font-size: 0.92rem;
             line-height: 1.6;
@@ -284,29 +372,121 @@
             padding: 60px 0;
         }
 
-        .stats-row {
-            display: flex;
-            justify-content: center;
-            gap: 60px;
-            flex-wrap: wrap;
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
         }
 
-        .stat {
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 24px 16px;
             text-align: center;
         }
 
         .stat-number {
             font-family: 'Space Mono', monospace;
-            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-size: clamp(1.5rem, 3vw, 2rem);
             font-weight: 700;
-            color: var(--purple-400);
+            color: var(--purple);
             line-height: 1.2;
         }
 
         .stat-label {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--text-muted);
             margin-top: 4px;
+        }
+
+        /* === BOTTOM CTA === */
+        .bottom-cta {
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .bottom-cta .section-title {
+            text-align: center;
+        }
+
+        .bottom-cta .section-subtitle {
+            max-width: 580px;
+            margin: 0 auto 40px;
+            text-align: center;
+        }
+
+        .bottom-cta .btn-primary {
+            margin-bottom: 32px;
+        }
+
+        .waitlist-form-wrapper {
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .waitlist-form {
+            display: flex;
+            gap: 0;
+            width: 100%;
+        }
+
+        .waitlist-form input[type="email"] {
+            flex: 1;
+            font-family: 'DM Sans', system-ui, sans-serif;
+            font-size: 1rem;
+            padding: 16px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-right: none;
+            border-radius: 14px 0 0 14px;
+            color: var(--text-primary);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .waitlist-form input[type="email"]::placeholder { color: var(--text-muted); }
+        .waitlist-form input[type="email"]:focus { border-color: rgba(155, 89, 182, 0.4); }
+
+        .waitlist-form button {
+            font-family: 'DM Sans', system-ui, sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 16px 28px;
+            background: var(--purple);
+            color: white;
+            border: 1px solid var(--purple);
+            border-radius: 0 14px 14px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .waitlist-form button:hover {
+            background: var(--purple-light);
+            border-color: var(--purple-light);
+            box-shadow: 0 8px 30px rgba(155, 89, 182, 0.3);
+        }
+
+        .waitlist-form button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .form-message {
+            margin-top: 16px;
+            font-size: 0.9rem;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .form-message.success { display: flex; color: var(--green); }
+        .form-message.error { display: flex; color: #f87171; }
+
+        .waitlist-note {
+            margin-top: 16px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-align: center;
         }
 
         /* === SUPPORT SECTION === */
@@ -342,10 +522,10 @@
             align-items: center;
             gap: 10px;
             padding: 14px 28px;
-            background: rgba(168, 85, 247, 0.1);
-            border: 1px solid rgba(168, 85, 247, 0.2);
+            background: rgba(155, 89, 182, 0.1);
+            border: 1px solid rgba(155, 89, 182, 0.2);
             border-radius: 12px;
-            color: var(--purple-400);
+            color: var(--purple);
             text-decoration: none;
             font-family: 'Space Mono', monospace;
             font-size: 0.95rem;
@@ -353,11 +533,11 @@
         }
 
         .support-email:hover {
-            background: rgba(168, 85, 247, 0.15);
-            border-color: rgba(168, 85, 247, 0.3);
+            background: rgba(155, 89, 182, 0.15);
+            border-color: rgba(155, 89, 182, 0.3);
         }
 
-        .support-email svg { width: 18px; height: 18px; }
+        .support-email ion-icon { font-size: 18px; }
 
         /* === LEGAL LINKS === */
         .legal {
@@ -380,7 +560,7 @@
             transition: color 0.2s;
         }
 
-        .legal-links a:hover { color: var(--purple-400); }
+        .legal-links a:hover { color: var(--purple); }
 
         /* === FOOTER === */
         footer {
@@ -392,7 +572,7 @@
         .footer-brand {
             font-family: 'Space Mono', monospace;
             font-weight: 700;
-            color: var(--purple-400);
+            color: var(--purple);
             letter-spacing: 0.08em;
             font-size: 1.1rem;
             margin-bottom: 16px;
@@ -436,111 +616,28 @@
             transform: translateY(0);
         }
 
-        /* === WAITLIST FORM === */
-        .waitlist-form-wrapper {
-            animation: fadeUp 0.8s ease 0.3s both;
-            max-width: 480px;
-            margin: 0 auto;
-        }
-        .waitlist-form {
-            display: flex;
-            gap: 0;
-            width: 100%;
-        }
-        .waitlist-form input[type="email"] {
-            flex: 1;
-            font-family: 'DM Sans', system-ui, sans-serif;
-            font-size: 1rem;
-            padding: 16px 20px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-right: none;
-            border-radius: 14px 0 0 14px;
-            color: var(--text-primary);
-            outline: none;
-            transition: border-color 0.2s;
-        }
-        .waitlist-form input[type="email"]::placeholder { color: var(--text-muted); }
-        .waitlist-form input[type="email"]:focus { border-color: rgba(168, 85, 247, 0.4); }
-        .waitlist-form button {
-            font-family: 'DM Sans', system-ui, sans-serif;
-            font-size: 1rem;
-            font-weight: 600;
-            padding: 16px 28px;
-            background: var(--purple-600);
-            color: white;
-            border: 1px solid var(--purple-600);
-            border-radius: 0 14px 14px 0;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-        }
-        .waitlist-form button:hover {
-            background: var(--purple-500);
-            border-color: var(--purple-500);
-            box-shadow: 0 8px 30px rgba(168, 85, 247, 0.3);
-        }
-        .waitlist-form button:disabled { opacity: 0.6; cursor: not-allowed; }
-        .form-message {
-            margin-top: 16px;
-            font-size: 0.9rem;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        .form-message.success { display: flex; color: var(--green-400); }
-        .form-message.error { display: flex; color: #f87171; }
-        .waitlist-note {
-            margin-top: 16px;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            text-align: center;
-        }
-
-        /* === TESTFLIGHT BUTTON === */
-        .testflight-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 16px 36px;
-            background: var(--purple-600);
-            color: white;
-            border-radius: 14px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.05rem;
-            transition: all 0.3s ease;
-            animation: fadeUp 0.8s ease 0.3s both;
-            margin-bottom: 12px;
-        }
-        .testflight-btn:hover {
-            background: var(--purple-500);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(168, 85, 247, 0.3);
-        }
-        .testflight-btn svg { width: 20px; height: 20px; }
-        .testflight-divider {
-            animation: fadeUp 0.8s ease 0.3s both;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-bottom: 16px;
-        }
-
         /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
         @media (max-width: 640px) {
             .hero { padding: 80px 0 60px; }
             .nav-links { gap: 20px; }
-            .stats-row { gap: 40px; }
             .support-card { padding: 40px 24px; }
-            .features-grid { grid-template-columns: 1fr; }
+            .hero-buttons { flex-direction: column; }
+            .hero-buttons .btn-primary,
+            .hero-buttons .btn-secondary { width: 100%; justify-content: center; }
+            .feature-card { flex-direction: column; }
             .waitlist-form { flex-direction: column; }
             .waitlist-form input[type="email"] {
                 border-right: 1px solid var(--border);
                 border-radius: 14px 14px 0 0;
                 border-bottom: none;
             }
-            .waitlist-form input[type="email"]:focus { border-right-color: rgba(168, 85, 247, 0.4); }
+            .waitlist-form input[type="email"]:focus { border-right-color: rgba(155, 89, 182, 0.4); }
             .waitlist-form button { border-radius: 0 0 14px 14px; }
         }
     </style>
@@ -567,94 +664,175 @@
         <section class="hero">
             <div class="hero-badge">
                 <span class="dot"></span>
-                Coming Soon
+                OPEN BETA &mdash; iOS
             </div>
-            <h1>Your One Piece TCG<br><span class="accent">Companion App</span></h1>
+            <h1>Built for <span class="accent">players</span>,<br>not just collectors.</h1>
+            <p class="hero-tagline">Your One Piece TCG companion app.</p>
             <p class="hero-sub">
-                Track your collection value with live market pricing, build decks,
-                trade cards with friends, and log your tournament results. Be the first to know when we launch.
+                Log your tournament results. Build validated decks. Save matchup strategy. Trade with your crew. Message your friends. All in one app.
             </p>
-            <a href="https://testflight.apple.com/join/HM2dcsnP" target="_blank" rel="noopener noreferrer" class="testflight-btn">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
-                Join the Beta on TestFlight
+            <div class="hero-buttons">
+                <a href="https://testflight.apple.com/join/HM2dcsnP" target="_blank" rel="noopener noreferrer" class="btn-primary">
+                    <ion-icon name="download-outline"></ion-icon>
+                    Join the Beta on TestFlight
+                </a>
+                <a href="#waitlist" class="btn-secondary">Join waitlist</a>
+            </div>
+            <p class="hero-fine-print">Free on iOS</p>
+        </section>
+
+        <hr class="section-divider">
+
+        <!-- COMPETE Section -->
+        <section class="feature-section" id="features">
+            <div class="section-label fade-in">COMPETE</div>
+            <h2 class="section-title fade-in">Level up your game</h2>
+            <p class="section-subtitle fade-in">Tools built around how competitive players actually prepare, play, and improve.</p>
+            <div class="feature-cards">
+                <div class="feature-card highlighted fade-in">
+                    <div class="feature-icon purple">
+                        <ion-icon name="trophy-outline"></ion-icon>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Tournament tracker</h3>
+                        <p>Log matches with leader selection, W/L, dice roll, first or second. Add full-page strategy notes per event. Export shareable tournament recaps as images.</p>
+                    </div>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon purple">
+                        <ion-icon name="layers-outline"></ion-icon>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Deck builder</h3>
+                        <p>Build decks with auto-validation — color matching, 4-copy limits, 50-card requirement. See stat breakdowns by cost, counter, and trait. Cycle through leader art variants.</p>
+                    </div>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon purple">
+                        <ion-icon name="document-text-outline"></ion-icon>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Matchup notes <span class="badge-new">NEW</span></h3>
+                        <p>Save strategy notes for every leader-vs-leader matchup. Track your win rate against specific leaders. Know your game plan before you sit down.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <!-- CONNECT Section -->
+        <section class="feature-section">
+            <div class="section-label fade-in">CONNECT</div>
+            <h2 class="section-title fade-in">Find your crew</h2>
+            <p class="section-subtitle fade-in">Trade, chat, and share with other players. Not another marketplace — a community.</p>
+            <div class="feature-cards">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon green">
+                        <ion-icon name="people-outline"></ion-icon>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Crew &amp; social <span class="badge-new">NEW</span></h3>
+                        <p>Add friends, post to the Grand Line feed, upvote and downvote, and DM your crew with text, cards, and images. Your community lives here.</p>
+                    </div>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon green">
+                        <ion-icon name="swap-horizontal-outline"></ion-icon>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Trade center</h3>
+                        <p>Propose trades with friends, track pending offers, and message to negotiate. Post wanted cards so your crew knows what you're looking for.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <!-- COLLECT Section -->
+        <section class="feature-section">
+            <div class="section-label fade-in">COLLECT</div>
+            <h2 class="section-title fade-in">Track everything you own</h2>
+            <p class="section-subtitle fade-in">Your collection, organized and priced. Binders, grading, portfolio charts — it's all here.</p>
+            <div class="feature-cards">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon blue">
+                        <ion-icon name="library-outline"></ion-icon>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Binders &amp; collection</h3>
+                        <p>Organize cards into custom binders with per-binder portfolio charts. Track graded cards with multi-entry grading and see their value over time.</p>
+                    </div>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon blue">
+                        <ion-icon name="trending-up-outline"></ion-icon>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Live market prices</h3>
+                        <p>TCGPlayer prices synced 4x daily across 3,500+ cards. Your portfolio updates automatically. Browse by set or check what's trending on the market tab.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <!-- Stats -->
+        <section class="stats fade-in">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">3,500+</div>
+                    <div class="stat-label">Cards</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">26+</div>
+                    <div class="stat-label">Sets</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">4x</div>
+                    <div class="stat-label">Daily sync</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Free</div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <!-- Bottom CTA -->
+        <section class="bottom-cta" id="waitlist">
+            <h2 class="section-title">Ready to set sail?</h2>
+            <p class="section-subtitle">Download the beta on TestFlight today or drop your email and we'll let you know when Mugi hits the App Store.</p>
+            <a href="https://testflight.apple.com/join/HM2dcsnP" target="_blank" rel="noopener noreferrer" class="btn-primary">
+                <ion-icon name="download-outline"></ion-icon>
+                Download beta (TestFlight)
             </a>
-            <div class="testflight-divider">or join the waitlist for launch updates</div>
             <div class="waitlist-form-wrapper">
                 <form class="waitlist-form" id="waitlistForm">
                     <input type="email" name="email" placeholder="your@email.com" required autocomplete="email" />
-                    <button type="submit">Join Waitlist</button>
+                    <button type="submit">Notify me</button>
                 </form>
                 <div class="form-message" id="formMessage"></div>
                 <p class="waitlist-note">Free on iOS. No spam, just a launch day heads up.</p>
             </div>
         </section>
 
-        <!-- Stats -->
-        <section class="stats fade-in">
-            <div class="stats-row">
-                <div class="stat">
-                    <div class="stat-number">4,900+</div>
-                    <div class="stat-label">Cards Tracked</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">26+</div>
-                    <div class="stat-label">Sets Covered</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">Daily</div>
-                    <div class="stat-label">Price Updates</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Features -->
-        <section class="features" id="features">
-            <div class="features-label">Features</div>
-            <h2 class="features-heading">Everything you need in one app</h2>
-            <div class="features-grid">
-                <div class="feature-card fade-in">
-                    <div class="feature-icon">📊</div>
-                    <h3>Collection Tracker</h3>
-                    <p>Add cards to your binder and watch your portfolio value update in real time with live market pricing and interactive charts.</p>
-                </div>
-                <div class="feature-card fade-in">
-                    <div class="feature-icon">💰</div>
-                    <h3>Live Market Prices</h3>
-                    <p>Real-time pricing for every card across all sets. See the most valuable cards, compare set totals, and never overpay again.</p>
-                </div>
-                <div class="feature-card fade-in">
-                    <div class="feature-icon">🃏</div>
-                    <h3>Deck Builder</h3>
-                    <p>Build and manage deck lists with a visual editor. Import existing lists or create from scratch with auto-calculated market values.</p>
-                </div>
-                <div class="feature-card fade-in">
-                    <div class="feature-icon">🔄</div>
-                    <h3>Trade Center</h3>
-                    <p>Post wanted cards, browse bounties from other collectors, and propose trades directly in the app with notes and reviews.</p>
-                </div>
-                <div class="feature-card fade-in">
-                    <div class="feature-icon">🏆</div>
-                    <h3>Tournament Tracker</h3>
-                    <p>Log results match by match. Track wins, losses, and win rates across events with leader and location details.</p>
-                </div>
-                <div class="feature-card fade-in">
-                    <div class="feature-icon">👥</div>
-                    <h3>Crew & Social</h3>
-                    <p>Build your crew, connect with friends, and follow their trades and activity on the Grand Line live social feed.</p>
-                </div>
-            </div>
-        </section>
+        <hr class="section-divider">
 
         <!-- Support -->
         <section class="support" id="support">
             <div class="support-card fade-in">
                 <h2>Need Help?</h2>
                 <p>
-                    Have a question, found a bug, or want to suggest a feature? 
+                    Have a question, found a bug, or want to suggest a feature?
                     We'd love to hear from you. Reach out anytime.
                 </p>
                 <a href="mailto:support@mugiapp.app" class="support-email">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                    <ion-icon name="mail-outline"></ion-icon>
                     support@mugiapp.app
                 </a>
             </div>
@@ -675,9 +853,9 @@
                 &copy; 2026 Mugi. All rights reserved.
             </div>
             <div class="footer-disclaimer">
-                One Piece Card Game is a trademark of Bandai Co., Ltd. 
-                Mugi is not affiliated with, endorsed, sponsored, or specifically 
-                approved by Bandai. All card images and game content are the 
+                One Piece Card Game is a trademark of Bandai Co., Ltd.
+                Mugi is not affiliated with, endorsed, sponsored, or specifically
+                approved by Bandai. All card images and game content are the
                 property of their respective owners.
             </div>
         </footer>
@@ -719,12 +897,12 @@
                     form.style.display = 'none';
                     document.querySelector('.waitlist-note').style.display = 'none';
                     msg.className = 'form-message success';
-                    msg.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> You\'re on the list. We\'ll let you know at launch.';
+                    msg.innerHTML = '<ion-icon name="checkmark-outline" style="font-size:18px"></ion-icon> You\'re on the list. We\'ll let you know at launch.';
                 } else {
                     msg.className = 'form-message error';
                     msg.textContent = 'Something went wrong. Try again.';
                     btn.disabled = false;
-                    btn.textContent = 'Join Waitlist';
+                    btn.textContent = 'Notify me';
                 }
             };
 
@@ -736,7 +914,7 @@
                 msg.className = 'form-message error';
                 msg.textContent = 'Something went wrong. Try again.';
                 btn.disabled = false;
-                btn.textContent = 'Join Waitlist';
+                btn.textContent = 'Notify me';
             };
             document.body.appendChild(script);
         });
