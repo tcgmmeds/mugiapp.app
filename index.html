@@ -299,14 +299,14 @@
         }
 
         /* ============================================================
-           SHARED SCENE STYLES
+           SCENE — SHARED STYLES
         ============================================================ */
         .section-label {
             font-size: 0.78rem;
             font-weight: 600;
             letter-spacing: 0.16em;
             text-transform: uppercase;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
         .section-title {
             font-size: clamp(1.7rem, 3.5vw, 2.5rem);
@@ -315,13 +315,58 @@
             line-height: 1.15;
         }
 
+        .scene-section {
+            position: relative;
+            padding: 80px 0;
+            overflow: hidden;
+        }
+        .scene-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 600px;
+            filter: blur(80px);
+            pointer-events: none;
+        }
+        .scene-header {
+            text-align: center;
+            margin-bottom: 56px;
+            position: relative;
+            z-index: 1;
+        }
+        .scene-sub {
+            font-size: clamp(0.95rem, 1.6vw, 1.05rem);
+            color: var(--text-muted);
+            max-width: 500px;
+            margin: 12px auto 0;
+            line-height: 1.7;
+        }
+
+        /* Feature row — consistent alternating grid */
+        .feature-row {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 48px;
+            align-items: center;
+            margin-bottom: 32px;
+            position: relative;
+            z-index: 1;
+        }
+        .feature-row:last-child { margin-bottom: 0; }
+        .feature-row.reversed {
+            grid-template-columns: 320px 1fr;
+        }
+        .feature-row.reversed .feature-phone { order: -1; }
+
         .feature-card {
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
             border-radius: 24px;
-            padding: 40px;
+            padding: 36px;
         }
         .feature-icon-wrap {
             width: 48px; height: 48px;
@@ -367,10 +412,117 @@
             display: flex;
             justify-content: center;
         }
+        .feature-phone .phone { width: 280px; }
+
+        /* Scene scroll animation — unified fade-up */
+        .scene-anim {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+            will-change: transform, opacity;
+        }
+        .scene-anim.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Feature rows: stagger card + phone from sides */
+        .feature-row.scene-anim {
+            opacity: 1;
+            transform: none;
+            transition: none;
+        }
+        .feature-row.scene-anim .feature-card {
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+            will-change: transform, opacity;
+        }
+        .feature-row.scene-anim .feature-phone {
+            opacity: 0;
+            transform: translateX(40px);
+            transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+            transition-delay: 0.1s;
+            will-change: transform, opacity;
+        }
+        .feature-row.reversed.scene-anim .feature-card { transform: translateX(40px); }
+        .feature-row.reversed.scene-anim .feature-phone { transform: translateX(-40px); }
+        .feature-row.scene-anim.visible .feature-card,
+        .feature-row.scene-anim.visible .feature-phone {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* ============================================================
+           SCENE A — COMPETE (Purple)
+        ============================================================ */
+        .scene-compete {
+            background: linear-gradient(180deg, #0a0a0a 0%, #130a18 40%, #130a18 60%, #0a0a0a 100%);
+        }
+        .scene-compete .scene-glow {
+            background: radial-gradient(ellipse at center, rgba(155,89,182,0.1) 0%, transparent 70%);
+        }
+        .scene-compete .section-label { color: var(--purple); }
+        .scene-compete .feature-card {
+            border-color: rgba(155,89,182,0.08);
+        }
+        .scene-compete .phone .phone-frame {
+            border-color: rgba(155,89,182,0.25);
+            box-shadow:
+                0 0 0 1px rgba(255,255,255,0.04),
+                0 30px 80px rgba(0,0,0,0.6),
+                0 10px 30px rgba(0,0,0,0.4),
+                0 0 30px rgba(155,89,182,0.1);
+        }
+
+        /* ============================================================
+           SCENE B — CONNECT (Teal)
+        ============================================================ */
+        .scene-connect {
+            background: linear-gradient(180deg, #0a0a0a 0%, #081510 40%, #081510 60%, #0a0a0a 100%);
+        }
+        .scene-connect .scene-glow {
+            background: radial-gradient(ellipse at center, rgba(46,204,113,0.08) 0%, transparent 70%);
+        }
+        .scene-connect .section-label { color: var(--green); }
+        .scene-connect .badge-new { background: var(--green); }
+        .scene-connect .feature-card {
+            border-color: rgba(46,204,113,0.08);
+        }
+        .scene-connect .phone .phone-frame {
+            border-color: rgba(46,204,113,0.25);
+            box-shadow:
+                0 0 0 1px rgba(255,255,255,0.04),
+                0 30px 80px rgba(0,0,0,0.6),
+                0 10px 30px rgba(0,0,0,0.4),
+                0 0 30px rgba(46,204,113,0.1);
+        }
+
+        /* ============================================================
+           SCENE C — COLLECT (Blue)
+        ============================================================ */
+        .scene-collect {
+            background: linear-gradient(180deg, #0a0a0a 0%, #080d18 40%, #080d18 60%, #0a0a0a 100%);
+        }
+        .scene-collect .scene-glow {
+            background: radial-gradient(ellipse at center, rgba(52,152,219,0.08) 0%, transparent 70%);
+        }
+        .scene-collect .section-label { color: var(--blue); }
+        .scene-collect .feature-card {
+            border-color: rgba(52,152,219,0.08);
+        }
+        .scene-collect .phone .phone-frame {
+            border-color: rgba(52,152,219,0.25);
+            box-shadow:
+                0 0 0 1px rgba(255,255,255,0.04),
+                0 30px 80px rgba(0,0,0,0.6),
+                0 10px 30px rgba(0,0,0,0.4),
+                0 0 30px rgba(52,152,219,0.1);
+        }
 
         /* Scene dividers */
         .scene-divider {
-            height: 2px;
+            height: 1px;
             border: none;
             opacity: 0;
             transform: scaleX(0);
@@ -381,347 +533,10 @@
             transform: scaleX(1);
         }
         .scene-divider.purple-teal {
-            background: linear-gradient(to right, var(--purple), var(--green));
+            background: linear-gradient(to right, transparent, var(--purple), var(--green), transparent);
         }
         .scene-divider.teal-blue {
-            background: linear-gradient(to right, var(--green), var(--blue));
-        }
-
-        /* ============================================================
-           SCENE A — COMPETE (Purple/Crimson Arena)
-        ============================================================ */
-        .scene-compete {
-            position: relative;
-            padding: 110px 0 120px;
-            background: linear-gradient(180deg, #0a0a0a 0%, #1a0a20 25%, #150a18 65%, #0a0a0a 100%);
-            overflow: hidden;
-        }
-        .scene-compete .scene-glow {
-            position: absolute;
-            top: 15%;
-            left: 65%;
-            transform: translate(-50%, 0);
-            width: 800px;
-            height: 700px;
-            background: radial-gradient(ellipse at center, rgba(155,89,182,0.15) 0%, rgba(231,76,60,0.08) 50%, transparent 75%);
-            filter: blur(80px);
-            pointer-events: none;
-        }
-        .scene-compete .scene-header {
-            text-align: left;
-            margin-bottom: 80px;
-            position: relative;
-            z-index: 1;
-        }
-        .scene-compete .section-label { color: var(--purple); }
-
-        /* Compete phone frame tints */
-        .scene-compete .phone .phone-frame {
-            border-color: rgba(155,89,182,0.3);
-            box-shadow:
-                0 0 0 1px rgba(255,255,255,0.04),
-                0 30px 80px rgba(0,0,0,0.6),
-                0 10px 30px rgba(0,0,0,0.4),
-                inset 0 1px 0 rgba(155,89,182,0.15),
-                0 0 40px rgba(155,89,182,0.12);
-        }
-
-        /* Compete text styling */
-        .scene-compete .feature-card h3 {
-            font-size: 1.5rem;
-            letter-spacing: -0.02em;
-        }
-
-        /* Compete row 1: text LEFT, large phone FAR RIGHT */
-        .compete-row-1 {
-            display: grid;
-            grid-template-columns: 1fr 360px;
-            gap: 40px;
-            align-items: center;
-            margin-bottom: 100px;
-            position: relative;
-            z-index: 1;
-        }
-        .compete-row-1 .feature-card {
-            border-color: rgba(155,89,182,0.08);
-        }
-        .compete-row-1 .feature-phone {
-            justify-content: flex-end;
-        }
-        .compete-row-1 .feature-phone .phone { width: 320px; }
-
-        /* Compete row 2: phone LEFT rotated, text RIGHT, no card */
-        .compete-row-2 {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 60px;
-            align-items: center;
-            margin-bottom: 100px;
-            position: relative;
-            z-index: 1;
-        }
-        .compete-row-2 .feature-phone { order: -1; }
-        .compete-row-2 .feature-phone .phone {
-            width: 280px;
-            transform: rotate(-2deg);
-        }
-        .compete-row-2 .feature-text {
-            padding: 20px 0;
-        }
-        .compete-row-2 .feature-text h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-            letter-spacing: -0.02em;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .compete-row-2 .feature-text p {
-            color: var(--text-muted);
-            font-size: 1rem;
-            line-height: 1.7;
-        }
-
-        /* Compete row 3: phone CENTERED large, text BELOW */
-        .compete-row-3 {
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-        .compete-row-3 .feature-card {
-            border-color: rgba(155,89,182,0.08);
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 48px 40px;
-        }
-        .compete-row-3 .feature-phone {
-            margin-bottom: 40px;
-        }
-        .compete-row-3 .feature-phone .phone { width: 340px; }
-        .compete-row-3 .feature-card h3 { justify-content: center; }
-
-        /* Compete scroll animation: slide from right */
-        .scene-compete .scene-anim {
-            opacity: 0;
-            transform: translateX(60px);
-            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .scene-compete .scene-anim.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        .scene-compete .compete-row-2 .feature-phone.scene-anim {
-            transform: translateX(-60px) rotate(-2deg);
-        }
-        .scene-compete .compete-row-2 .feature-phone.scene-anim.visible {
-            transform: translateX(0) rotate(-2deg);
-        }
-
-        /* ============================================================
-           SCENE B — CONNECT (Teal/Green Community)
-        ============================================================ */
-        .scene-connect {
-            position: relative;
-            padding: 110px 0 120px;
-            background: linear-gradient(180deg, #0a0a0a 0%, #081a14 25%, #06150f 65%, #0a0a0a 100%);
-            overflow: hidden;
-        }
-        .scene-connect .scene-glow {
-            position: absolute;
-            top: 10%;
-            left: 35%;
-            transform: translate(-50%, 0);
-            width: 800px;
-            height: 700px;
-            background: radial-gradient(ellipse at center, rgba(46,204,113,0.12) 0%, rgba(26,188,156,0.08) 50%, transparent 75%);
-            filter: blur(80px);
-            pointer-events: none;
-        }
-        .scene-connect .scene-header {
-            text-align: right;
-            margin-bottom: 80px;
-            position: relative;
-            z-index: 1;
-        }
-        .scene-connect .section-label { color: var(--green); }
-
-        /* Connect phone frame tints */
-        .scene-connect .phone .phone-frame {
-            border-color: rgba(46,204,113,0.3);
-            box-shadow:
-                0 0 0 1px rgba(255,255,255,0.04),
-                0 30px 80px rgba(0,0,0,0.6),
-                0 10px 30px rgba(0,0,0,0.4),
-                inset 0 1px 0 rgba(46,204,113,0.15),
-                0 0 40px rgba(46,204,113,0.12);
-        }
-
-        /* Connect text styling */
-        .scene-connect .feature-card h3 {
-            font-size: 1.375rem;
-            letter-spacing: 0.5px;
-        }
-        .scene-connect .badge-new { background: var(--green); }
-
-        /* Connect row 1: phone RIGHT positioned HIGH, text LEFT */
-        .connect-row-1 {
-            display: grid;
-            grid-template-columns: 1fr 360px;
-            gap: 40px;
-            align-items: start;
-            margin-bottom: 100px;
-            position: relative;
-            z-index: 1;
-        }
-        .connect-row-1 .feature-card {
-            border-color: rgba(46,204,113,0.08);
-            margin-top: 60px;
-        }
-        .connect-row-1 .feature-phone {
-            justify-content: flex-end;
-        }
-        .connect-row-1 .feature-phone .phone { width: 320px; }
-
-        /* Connect row 2: text FULL WIDTH banner, phone BELOW offset right */
-        .connect-row-2 {
-            position: relative;
-            z-index: 1;
-        }
-        .connect-row-2 .feature-card {
-            border-color: rgba(46,204,113,0.06);
-            margin-bottom: 48px;
-        }
-        .connect-row-2 .feature-phone {
-            display: flex;
-            justify-content: flex-start;
-            padding-left: 55%;
-        }
-        .connect-row-2 .feature-phone .phone { width: 300px; }
-
-        /* Connect scroll animation: gentle scale fade */
-        .scene-connect .scene-anim {
-            opacity: 0;
-            transform: scale(1.05);
-            transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
-        }
-        .scene-connect .scene-anim.visible {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        /* ============================================================
-           SCENE C — COLLECT (Blue Vault)
-        ============================================================ */
-        .scene-collect {
-            position: relative;
-            padding: 110px 0 120px;
-            background: linear-gradient(180deg, #0a0a0a 0%, #080e1a 25%, #060b16 65%, #0a0a0a 100%);
-            overflow: hidden;
-        }
-        .scene-collect .scene-glow {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, 0);
-            width: 900px;
-            height: 600px;
-            background: radial-gradient(ellipse at center, rgba(52,152,219,0.12) 0%, rgba(41,128,185,0.08) 50%, transparent 75%);
-            filter: blur(80px);
-            pointer-events: none;
-        }
-        .scene-collect .scene-header {
-            text-align: center;
-            margin-bottom: 80px;
-            position: relative;
-            z-index: 1;
-        }
-        .scene-collect .section-label { color: var(--blue); }
-
-        /* Collect phone frame tints */
-        .scene-collect .phone .phone-frame {
-            border-color: rgba(52,152,219,0.3);
-            box-shadow:
-                0 0 0 1px rgba(255,255,255,0.04),
-                0 30px 80px rgba(0,0,0,0.6),
-                0 10px 30px rgba(0,0,0,0.4),
-                inset 0 1px 0 rgba(52,152,219,0.15),
-                0 0 40px rgba(52,152,219,0.12);
-        }
-
-        /* Collect text styling — premium uppercase feel */
-        .scene-collect .feature-card h3 {
-            font-size: 1.25rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Collect row 1: phone LEFT, text RIGHT, premium vault card */
-        .collect-row-1 {
-            display: grid;
-            grid-template-columns: 320px 1fr;
-            gap: 60px;
-            align-items: center;
-            margin-bottom: 100px;
-            position: relative;
-            z-index: 1;
-        }
-        .collect-row-1 .feature-phone { order: -1; }
-        .collect-row-1 .feature-phone .phone { width: 280px; }
-        .collect-row-1 .feature-card {
-            border-color: rgba(52,152,219,0.12);
-            padding: 48px 44px;
-        }
-
-        /* Collect row 2: text LEFT, phone RIGHT tilted */
-        .collect-row-2 {
-            display: grid;
-            grid-template-columns: 1fr 340px;
-            gap: 60px;
-            align-items: center;
-            position: relative;
-            z-index: 1;
-        }
-        .collect-row-2 .feature-text {
-            padding: 20px 0;
-        }
-        .collect-row-2 .feature-text h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .collect-row-2 .feature-text p {
-            color: var(--text-muted);
-            font-size: 1rem;
-            line-height: 1.7;
-        }
-        .collect-row-2 .feature-phone .phone {
-            width: 300px;
-            transform: rotate(2deg);
-        }
-
-        /* Collect scroll animation: rise from below */
-        .scene-collect .scene-anim {
-            opacity: 0;
-            transform: translateY(60px);
-            transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
-        }
-        .scene-collect .scene-anim.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .scene-collect .collect-row-2 .feature-phone.scene-anim {
-            transform: translateY(60px) rotate(2deg);
-        }
-        .scene-collect .collect-row-2 .feature-phone.scene-anim.visible {
-            transform: translateY(0) rotate(2deg);
+            background: linear-gradient(to right, transparent, var(--green), var(--blue), transparent);
         }
 
         /* ============================================================
@@ -996,118 +811,30 @@
             transform: translateY(0);
         }
 
-        /* Scene animation stagger delays */
-        .scene-anim-delay-1 { transition-delay: 0.1s !important; }
-        .scene-anim-delay-2 { transition-delay: 0.2s !important; }
-        .scene-anim-delay-3 { transition-delay: 0.3s !important; }
-
         /* ============================================================
            RESPONSIVE
         ============================================================ */
         @media (max-width: 900px) {
-            /* Scene headers all left-align on mobile */
-            .scene-compete .scene-header,
-            .scene-connect .scene-header,
-            .scene-collect .scene-header {
-                text-align: left;
-            }
-
-            /* Reduce ambient glow on mobile */
-            .scene-compete .scene-glow,
-            .scene-connect .scene-glow,
-            .scene-collect .scene-glow {
-                opacity: 0.55;
-            }
-
-            /* Compete rows stack */
-            .compete-row-1,
-            .compete-row-2 {
+            .feature-row,
+            .feature-row.reversed {
                 grid-template-columns: 1fr;
                 gap: 32px;
                 text-align: center;
             }
-            .compete-row-1 .feature-phone,
-            .compete-row-2 .feature-phone {
-                order: -1;
-                justify-content: center;
-            }
-            .compete-row-1 .feature-phone .phone,
-            .compete-row-2 .feature-phone .phone {
-                width: 260px;
-                transform: none;
-            }
-            .compete-row-1 .feature-card h3,
-            .compete-row-3 .feature-card h3 {
-                justify-content: center;
-            }
+            .feature-row.reversed .feature-phone { order: 0; }
+            .feature-row .feature-phone { order: -1; }
+            .feature-row .feature-card { order: 1; }
+            .feature-card h3 { justify-content: center; }
+            .feature-phone .phone { width: 260px; }
 
-            /* Connect rows stack */
-            .connect-row-1 {
-                grid-template-columns: 1fr;
-                gap: 32px;
-                text-align: center;
-            }
-            .connect-row-1 .feature-card { margin-top: 0; }
-            .connect-row-1 .feature-phone {
-                order: -1;
-                justify-content: center;
-            }
-            .connect-row-1 .feature-phone .phone { width: 260px; }
-            .connect-row-1 .feature-card h3 { justify-content: center; }
-            .connect-row-2 {
-                text-align: center;
-            }
-            .connect-row-2 .feature-card h3 { justify-content: center; }
-            .connect-row-2 .feature-phone {
-                justify-content: center;
-                padding-left: 0;
-            }
-            .connect-row-2 .feature-phone .phone { width: 260px; }
-
-            /* Collect rows stack */
-            .collect-row-1 {
-                grid-template-columns: 1fr;
-                gap: 32px;
-                text-align: center;
-            }
-            .collect-row-1 .feature-phone {
-                order: -1;
-                justify-content: center;
-            }
-            .collect-row-1 .feature-phone .phone { width: 260px; }
-            .collect-row-1 .feature-card h3 { justify-content: center; }
-            .collect-row-2 {
-                grid-template-columns: 1fr;
-                gap: 32px;
-                text-align: center;
-            }
-            .collect-row-2 .feature-phone {
-                order: -1;
-                justify-content: center;
-            }
-            .collect-row-2 .feature-phone .phone {
-                width: 260px;
-                transform: none;
-            }
-            .collect-row-2 .feature-text h3 { justify-content: center; }
-
-            /* All scene animations simplify to fade-up on mobile */
-            .scene-compete .scene-anim,
-            .scene-connect .scene-anim,
-            .scene-collect .scene-anim {
+            .feature-row.scene-anim .feature-card,
+            .feature-row.scene-anim .feature-phone,
+            .feature-row.reversed.scene-anim .feature-card,
+            .feature-row.reversed.scene-anim .feature-phone {
                 transform: translateY(30px);
             }
-            .scene-compete .scene-anim.visible,
-            .scene-connect .scene-anim.visible,
-            .scene-collect .scene-anim.visible {
-                transform: translateY(0);
-            }
-            .scene-compete .compete-row-2 .feature-phone.scene-anim,
-            .scene-collect .collect-row-2 .feature-phone.scene-anim {
-                transform: translateY(30px);
-            }
-            .scene-compete .compete-row-2 .feature-phone.scene-anim.visible,
-            .scene-collect .collect-row-2 .feature-phone.scene-anim.visible {
+            .feature-row.scene-anim.visible .feature-card,
+            .feature-row.scene-anim.visible .feature-phone {
                 transform: translateY(0);
             }
         }
@@ -1130,19 +857,9 @@
             .hero-buttons { flex-direction: column; width: 100%; }
             .hero-buttons .btn-primary,
             .hero-buttons .btn-outline { width: 100%; justify-content: center; }
-            .scene-compete,
-            .scene-connect,
-            .scene-collect { padding: 60px 0 70px; }
-            .scene-compete .scene-header,
-            .scene-connect .scene-header,
-            .scene-collect .scene-header { margin-bottom: 48px; }
-            .compete-row-1,
-            .compete-row-2,
-            .compete-row-3,
-            .connect-row-1,
-            .connect-row-2,
-            .collect-row-1,
-            .collect-row-2 { margin-bottom: 48px; }
+            .scene-section { padding: 48px 0; }
+            .scene-header { margin-bottom: 36px; }
+            .feature-row { margin-bottom: 24px; }
             .feature-card { padding: 28px; }
 
             .stats-section { padding: 48px 0; }
@@ -1229,59 +946,60 @@
     </div>
 
     <!-- ========== SCENE A: COMPETE ========== -->
-    <section class="scene-compete" id="features">
+    <section class="scene-section scene-compete" id="features">
         <div class="scene-glow"></div>
         <div class="container">
             <div class="scene-header scene-anim">
                 <div class="section-label">COMPETE</div>
                 <h2 class="section-title">Level up your game</h2>
+                <p class="scene-sub">Track tournaments, build validated decks, and master every matchup.</p>
             </div>
 
-            <!-- 1. Tournament Tracker — text LEFT, large phone FAR RIGHT -->
-            <div class="compete-row-1">
-                <div class="feature-card scene-anim">
+            <!-- 1. Tournament Tracker — text LEFT, phone RIGHT -->
+            <div class="feature-row scene-anim">
+                <div class="feature-card">
                     <div class="feature-icon-wrap purple">
                         <ion-icon name="trophy-outline"></ion-icon>
                     </div>
                     <h3>Track your progress like never before</h3>
                     <p>Log matches with leader selection, W/L, dice roll, first or second. Add full-page strategy notes per event. Export shareable tournament recaps.</p>
                 </div>
-                <div class="feature-phone scene-anim scene-anim-delay-1">
+                <div class="feature-phone">
                     <div class="phone" style="--float-speed: 4.5s">
                         <div class="phone-frame"><div class="phone-screen"><img src="images/card-grid.png" alt="Card grid view" /></div></div>
                     </div>
                 </div>
             </div>
 
-            <!-- 2. Deck Builder — phone LEFT rotated, text RIGHT, no card -->
-            <div class="compete-row-2">
-                <div class="feature-phone scene-anim">
-                    <div class="phone" style="--float-speed: 4.5s">
-                        <div class="phone-frame"><div class="phone-screen"><img src="images/deck-builder.png" alt="Deck builder screen" /></div></div>
-                    </div>
-                </div>
-                <div class="feature-text scene-anim scene-anim-delay-1">
+            <!-- 2. Deck Builder — phone LEFT, text RIGHT -->
+            <div class="feature-row reversed scene-anim">
+                <div class="feature-card">
                     <div class="feature-icon-wrap purple">
                         <ion-icon name="layers-outline"></ion-icon>
                     </div>
                     <h3>Build decks with confidence</h3>
                     <p>Auto-validation with color matching, 4-copy limits, and 50-card requirement. See stat breakdowns by cost, counter, and trait. Cycle through leader art variants.</p>
                 </div>
-            </div>
-
-            <!-- 3. Matchup Notes — phone CENTERED large, text BELOW in card -->
-            <div class="compete-row-3">
-                <div class="feature-phone scene-anim">
-                    <div class="phone" style="--float-speed: 4.5s">
-                        <div class="phone-frame"><div class="phone-screen"><img src="images/matchup-notes.png" alt="Matchup notes screen" /></div></div>
+                <div class="feature-phone">
+                    <div class="phone" style="--float-speed: 5s">
+                        <div class="phone-frame"><div class="phone-screen"><img src="images/deck-builder.png" alt="Deck builder screen" /></div></div>
                     </div>
                 </div>
-                <div class="feature-card scene-anim scene-anim-delay-1">
+            </div>
+
+            <!-- 3. Matchup Notes — text LEFT, phone RIGHT -->
+            <div class="feature-row scene-anim">
+                <div class="feature-card">
                     <div class="feature-icon-wrap purple">
                         <ion-icon name="document-text-outline"></ion-icon>
                     </div>
                     <h3>Know your game plan <span class="badge-new">NEW</span></h3>
                     <p>Save strategy notes for every leader-vs-leader matchup. Track your win rate against specific leaders. Know what works before you sit down.</p>
+                </div>
+                <div class="feature-phone">
+                    <div class="phone" style="--float-speed: 4.3s">
+                        <div class="phone-frame"><div class="phone-screen"><img src="images/matchup-notes.png" alt="Matchup notes screen" /></div></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1291,41 +1009,42 @@
     <hr class="scene-divider purple-teal scene-anim">
 
     <!-- ========== SCENE B: CONNECT ========== -->
-    <section class="scene-connect">
+    <section class="scene-section scene-connect">
         <div class="scene-glow"></div>
         <div class="container">
             <div class="scene-header scene-anim">
                 <div class="section-label">CONNECT</div>
                 <h2 class="section-title">Find your crew</h2>
+                <p class="scene-sub">Join the community, trade with friends, and grow together.</p>
             </div>
 
-            <!-- 4. Crew & Social — phone RIGHT high, text LEFT -->
-            <div class="connect-row-1">
-                <div class="feature-card scene-anim">
+            <!-- 4. Crew & Social — text LEFT, phone RIGHT -->
+            <div class="feature-row scene-anim">
+                <div class="feature-card">
                     <div class="feature-icon-wrap green">
                         <ion-icon name="people-outline"></ion-icon>
                     </div>
                     <h3>Find your crew <span class="badge-new">NEW</span></h3>
                     <p>Add friends, post to the Grand Line feed, upvote and downvote, and DM your crew with text, cards, and images. Your community lives here.</p>
                 </div>
-                <div class="feature-phone scene-anim scene-anim-delay-1">
+                <div class="feature-phone">
                     <div class="phone" style="--float-speed: 5.2s">
                         <div class="phone-frame"><div class="phone-screen"><img src="images/grand-line.png" alt="Grand Line social feed" /></div></div>
                     </div>
                 </div>
             </div>
 
-            <!-- 5. Trade Center — text banner top, phone below offset right -->
-            <div class="connect-row-2">
-                <div class="feature-card scene-anim">
+            <!-- 5. Trade Center — phone LEFT, text RIGHT -->
+            <div class="feature-row reversed scene-anim">
+                <div class="feature-card">
                     <div class="feature-icon-wrap green">
                         <ion-icon name="swap-horizontal-outline"></ion-icon>
                     </div>
                     <h3>Trade with your crew</h3>
                     <p>Propose trades with friends, track pending offers, and message to negotiate. Post wanted cards so your crew knows what you're looking for.</p>
                 </div>
-                <div class="feature-phone scene-anim scene-anim-delay-1">
-                    <div class="phone" style="--float-speed: 5.2s">
+                <div class="feature-phone">
+                    <div class="phone" style="--float-speed: 4.8s">
                         <div class="phone-frame"><div class="phone-screen"><img src="images/trade-center.png" alt="Trade center screen" /></div></div>
                     </div>
                 </div>
@@ -1337,41 +1056,42 @@
     <hr class="scene-divider teal-blue scene-anim">
 
     <!-- ========== SCENE C: COLLECT ========== -->
-    <section class="scene-collect">
+    <section class="scene-section scene-collect">
         <div class="scene-glow"></div>
         <div class="container">
             <div class="scene-header scene-anim">
                 <div class="section-label">COLLECT</div>
-                <h2 class="section-title">Your vault awaits</h2>
+                <h2 class="section-title">Track everything you own</h2>
+                <p class="scene-sub">Organize your collection, monitor prices, and watch your portfolio grow.</p>
             </div>
 
-            <!-- 6. Binders & Collection — phone LEFT, text RIGHT, vault card -->
-            <div class="collect-row-1">
-                <div class="feature-phone scene-anim">
-                    <div class="phone" style="--float-speed: 4.8s">
-                        <div class="phone-frame"><div class="phone-screen"><img src="images/hero-binder.png" alt="Collection binder view" /></div></div>
-                    </div>
-                </div>
-                <div class="feature-card scene-anim scene-anim-delay-1">
+            <!-- 6. Binders & Collection — text LEFT, phone RIGHT -->
+            <div class="feature-row scene-anim">
+                <div class="feature-card">
                     <div class="feature-icon-wrap blue">
                         <ion-icon name="library-outline"></ion-icon>
                     </div>
                     <h3>Track everything you own</h3>
                     <p>Organize cards into custom binders with per-binder portfolio charts. Track graded cards with multi-entry grading and see their value over time.</p>
                 </div>
+                <div class="feature-phone">
+                    <div class="phone" style="--float-speed: 4.8s">
+                        <div class="phone-frame"><div class="phone-screen"><img src="images/hero-binder.png" alt="Collection binder view" /></div></div>
+                    </div>
+                </div>
             </div>
 
-            <!-- 7. Live Market Prices — text LEFT, phone RIGHT tilted -->
-            <div class="collect-row-2">
-                <div class="feature-text scene-anim">
+            <!-- 7. Live Market Prices — phone LEFT, text RIGHT -->
+            <div class="feature-row reversed scene-anim">
+                <div class="feature-card">
                     <div class="feature-icon-wrap blue">
                         <ion-icon name="trending-up-outline"></ion-icon>
                     </div>
                     <h3>Real-time market prices</h3>
                     <p>TCGPlayer prices synced 4x daily across 4,900+ cards. Your portfolio updates automatically. Browse by set or check what's trending.</p>
                 </div>
-                <div class="feature-phone scene-anim scene-anim-delay-1">
-                    <div class="phone" style="--float-speed: 4.8s">
+                <div class="feature-phone">
+                    <div class="phone" style="--float-speed: 5.4s">
                         <div class="phone-frame"><div class="phone-screen"><img src="images/card-detail.png" alt="Card detail with pricing" /></div></div>
                     </div>
                 </div>
