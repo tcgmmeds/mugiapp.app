@@ -567,45 +567,6 @@
         }
 
         /* ============================================================
-           STATS
-        ============================================================ */
-        .stats-section {
-            padding: 80px 0;
-        }
-        .stats-title {
-            font-size: clamp(1.7rem, 3.5vw, 2.5rem);
-            font-weight: 700;
-            text-align: center;
-            letter-spacing: -0.02em;
-            margin-bottom: 48px;
-        }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-        }
-        .stat-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 32px 20px;
-            text-align: center;
-        }
-        .stat-number {
-            font-size: clamp(1.6rem, 3vw, 1.9rem);
-            font-weight: 700;
-            color: var(--text);
-            line-height: 1.2;
-            margin-bottom: 4px;
-        }
-        .stat-label {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        /* ============================================================
            BOTTOM CTA
         ============================================================ */
         .bottom-cta {
@@ -840,8 +801,7 @@
         }
 
         @media (max-width: 768px) {
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .showcase-phones .phone-left,
+.showcase-phones .phone-left,
             .showcase-phones .phone-right { display: none; }
             .showcase-phones .phone-center { transform: none; }
             .showcase-phones .phone { width: 280px; }
@@ -862,8 +822,7 @@
             .feature-row { margin-bottom: 24px; }
             .feature-card { padding: 28px; }
 
-            .stats-section { padding: 48px 0; }
-            .bottom-cta { padding: 60px 0; }
+.bottom-cta { padding: 60px 0; }
             .nav-right { gap: 16px; }
             .nav-btn { padding: 7px 16px; font-size: 0.8rem; }
         }
@@ -1094,32 +1053,6 @@
                     <div class="phone" style="--float-speed: 5.4s">
                         <div class="phone-frame"><div class="phone-screen"><img src="images/card-detail.png" alt="Card detail with pricing" /></div></div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- ========== STATS ========== -->
-    <section class="stats-section">
-        <div class="container">
-            <h2 class="stats-title anim">And there's more</h2>
-            <div class="stats-grid">
-                <div class="stat-card anim">
-                    <div class="stat-number">4,900+</div>
-                    <div class="stat-label">Cards tracked</div>
-                </div>
-                <div class="stat-card anim" style="transition-delay:0.1s">
-                    <div class="stat-number">26+</div>
-                    <div class="stat-label">Sets covered</div>
-                </div>
-                <div class="stat-card anim" style="transition-delay:0.2s">
-                    <div class="stat-number">4x daily</div>
-                    <div class="stat-label">Price sync</div>
-                </div>
-                <div class="stat-card anim" style="transition-delay:0.3s">
-                    <div class="stat-number">100%</div>
-                    <div class="stat-label">Free</div>
                 </div>
             </div>
         </div>
